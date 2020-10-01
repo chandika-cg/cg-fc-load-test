@@ -11,6 +11,12 @@ if(cnvId==""){
     cnvId = "LT" + (new Date()).format("yyyyMMddHHmmss");
 }
 
+echo "+------------------------------------------------+"
+echo "  CNV_ID                  = ${cnvId}"
+echo "  DURATION                = ${duration}"
+echo "  INTERVAL                = ${interval}"
+echo "  RESULT SHOW PROBABILITY = 1/${rndResCnt}"
+echo "+------------------------------------------------+"
 
 def runProject(stage_name, tc, duration, cnvId, threadCount, delay, rndResCnt, stageCount){
 //    def title = email_prefix +" "+ profile + " " + duration.toString() + "D " + (new Date()).format("yyyy-MM-dd HH:mm:ss") + " #${BUILD_NUMBER}"
@@ -23,6 +29,13 @@ def runProject(stage_name, tc, duration, cnvId, threadCount, delay, rndResCnt, s
     node {
         try{
             timeout(time: timeOut, unit: 'MINUTES') {
+                echo "+------------------------------------------------+"
+                echo "  CNV_ID                  = ${_cnvId}"
+                echo "  TESTCASE                = ${tc}"
+                echo "  THREAD COUNT            = ${threadCount}"
+                echo "  DELAY                   = ${delay}"
+                echo "+------------------------------------------------+"
+
                 sh "${jmeter_home}/bin/jmeter.sh -n -l ${jmeter_home}/prj/summary-report.csv -t ${jmeter_home}/prj/FCTG-LT-PP.jmx -JRND_RES_CNT=${rndResCnt} -JCNV_ID=${_cnvId} -JTESTCASE=${tc} -JTHREADS=${threadCount} -JRAMPUP=${delay} -JDURATION=${duration} -JLOOP_COUNT=1 -JSTARTUP_DELAY=0 -j ${jmeter_home}/prj/jmeter.log"
 
                 readFile("${jmeter_home}/prj/summary-report.csv").split('\n').each { line, count -> echo line }
