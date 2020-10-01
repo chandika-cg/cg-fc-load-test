@@ -13,10 +13,10 @@ if(cnvId==""){
 
 def description = "";
 description += "\n+------------------------------------------------+";
-description += "\n  CNV_ID                  = ${cnvId}";
-description += "\n  DURATION                = ${duration}";
-description += "\n  INTERVAL                = ${interval}";
-description += "\n  RESULT SHOW PROBABILITY = 1/${rndResCnt}";
+description += "\n+  CNV_ID                  = ${cnvId}";
+description += "\n+  DURATION                = ${duration}";
+description += "\n+  INTERVAL                = ${interval}";
+description += "\n+  RESULT SHOW PROBABILITY = 1/${rndResCnt}";
 description += "\n+------------------------------------------------+";
 echo description;
 
@@ -33,10 +33,10 @@ def runProject(stage_name, tc, duration, cnvId, threadCount, delay, rndResCnt, s
             timeout(time: timeOut, unit: 'MINUTES') {
                 def description = "";
                 description += "\n+------------------------------------------------+";
-                description += "\n  CNV_ID                  = ${_cnvId}";
-                description += "\n  TESTCASE                = ${tc}";
-                description += "\n  THREAD COUNT            = ${threadCount}";
-                description += "\n  DELAY                   = ${delay}";
+                description += "\n+  CNV_ID                  = ${_cnvId}";
+                description += "\n+  TESTCASE                = ${tc}";
+                description += "\n+  THREAD COUNT            = ${threadCount}";
+                description += "\n+  DELAY                   = ${delay}";
                 description += "\n+------------------------------------------------+";
                 echo description;
 
