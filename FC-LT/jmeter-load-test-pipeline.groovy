@@ -45,8 +45,11 @@ def runProject(stage_name, tc, duration, noResponse, cnvId, threadCount, delay, 
                 description += "\n+  DELAY                   = ${delay} S";
                 description += "\n+------------------------------------------------+";
                 echo description;
-                sh "export JAVA_HOME=/usr/local/java/jdk1.8.0_31/bin/java"
+
+//                sh "export JAVA_HOME=/usr/local/java/jdk1.8.0_31/bin/java"
+                sh "whoami"
                 sh "java -version"
+
                 sh "mkdir -p reports"
                 sh "mkdir -p reports/${executionId}"
                 sh "${jmeter_home}/bin/jmeter.sh -n -l ${jmeter_home}/prj/summary-report-${executionId}.jtl -t ${jmeter_home}/prj/${jmx_file} -JRND_RES_CNT=${rndResCnt} -JCNV_ID=${_cnvId} -JTESTCASE=${tc} -JTHREADS=${threadCount} -JRAMPUP=${delay} -JDURATION=${duration} -JNO_RESPONSE=${noResponse} -JLOOP_COUNT=1 -JSTARTUP_DELAY=0 -j ${jmeter_home}/prj/jmeter.log"
