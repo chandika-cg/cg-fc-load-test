@@ -46,7 +46,7 @@ def runProject(stage_name, tc, duration, noResponse, cnvId, threadCount, delay, 
                 echo description;
                 sh "mkdir -p reports"
                 sh "mkdir -p reports/${executionId}"
-                sh "${jmeter_home}/bin/jmeter.sh -n -l ${jmeter_home}/prj/summary-report-${BUILD_NUMBER}.csv -t ${jmeter_home}/prj/FCTG-LT-PP.jmx -JRND_RES_CNT=${rndResCnt} -JCNV_ID=${_cnvId} -JTESTCASE=${tc} -JTHREADS=${threadCount} -JRAMPUP=${delay} -JDURATION=${duration} -JNO_RESPONSE=${noResponse} -JLOOP_COUNT=1 -JSTARTUP_DELAY=0 -j ${jmeter_home}/prj/jmeter.log -e -o reports/${executionId}"
+                sh "${jmeter_home}/bin/jmeter.sh -n -l ${jmeter_home}/prj/summary-report-${executionId}.csv -t ${jmeter_home}/prj/FCTG-LT-PP.jmx -JRND_RES_CNT=${rndResCnt} -JCNV_ID=${_cnvId} -JTESTCASE=${tc} -JTHREADS=${threadCount} -JRAMPUP=${delay} -JDURATION=${duration} -JNO_RESPONSE=${noResponse} -JLOOP_COUNT=1 -JSTARTUP_DELAY=0 -j ${jmeter_home}/prj/jmeter.log -e -o reports/${executionId}"
 
 //                archiveArtifacts artifacts: "reports/${executionId}/index.html", excludes: 'reports/*.md'
                 publishHTML (target: [
@@ -62,7 +62,7 @@ def runProject(stage_name, tc, duration, noResponse, cnvId, threadCount, delay, 
 //                publishHTML target: [
 //
 //                ]
-                readFile("${jmeter_home}/prj/summary-report.csv").split('\n').each { line, count -> echo line }
+                readFile("${jmeter_home}/prj/summary-report-${executionId}.csv").split('\n').each { line, count -> echo line }
             }
         } catch (error) {
 
