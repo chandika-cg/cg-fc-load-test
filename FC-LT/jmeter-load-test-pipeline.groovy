@@ -43,9 +43,12 @@ def runProject(stage_name, tc, duration, cnvId, threadCount, delay, rndResCnt, s
                 description += "\n+  DELAY                   = ${delay}";
                 description += "\n+------------------------------------------------+";
                 echo description;
-                sh "mkdir -p reports"
-                sh "mkdir -p reports/${executionId}"
+//                sh "mkdir -p reports"
+//                sh "mkdir -p reports/${executionId}"
+                createFile("reports/${executionId}");
                 sh "${jmeter_home}/bin/jmeter.sh -n -l ${jmeter_home}/prj/summary-report-${BUILD_NUMBER}.csv -t ${jmeter_home}/prj/FCTG-LT-PP.jmx -JRND_RES_CNT=${rndResCnt} -JCNV_ID=${_cnvId} -JTESTCASE=${tc} -JTHREADS=${threadCount} -JRAMPUP=${delay} -JDURATION=${duration} -JLOOP_COUNT=1 -JSTARTUP_DELAY=0 -j ${jmeter_home}/prj/jmeter.log -e -o reports/${executionId}"
+
+                archiveArtifacts artifacts: 'output/*.txt', excludes: 'output/*.md'
 //                sh "${jmeter_home}/bin/jmeter.sh -n -l ${jmeter_home}/prj/summary-report.csv -t ${jmeter_home}/prj/FCTG-LT-PP.jmx -JRND_RES_CNT=${rndResCnt} -JCNV_ID=${_cnvId} -JTESTCASE=${tc} -JTHREADS=${threadCount} -JRAMPUP=${delay} -JDURATION=${duration} -JLOOP_COUNT=1 -JSTARTUP_DELAY=0 -j ${jmeter_home}/prj/jmeter.log"
 
 //                publishHTML target: [
