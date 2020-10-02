@@ -23,6 +23,7 @@ description += "\n+  CNV_ID                  = ${cnvId}";
 description += "\n+  DURATION                = ${duration} MIN";
 description += "\n+  INTERVAL                = ${interval} S";
 description += "\n+  RESULT SHOW PROBABILITY = 1/${rndResCnt}";
+description += "\n+  NO RESPONSE             = ${noResponse}";
 description += "\n+------------------------------------------------+";
 echo description;
 
@@ -44,6 +45,7 @@ def runProject(stage_name, tc, duration, noResponse, cnvId, resultsCount,threadC
                 description += "\n+  TESTCASE                = ${tc}";
                 description += "\n+  THREAD COUNT            = ${threadCount}";
                 description += "\n+  DELAY                   = ${delay} S";
+                description += "\n+  RESULT COUNT            = ${resultsCount}";
                 description += "\n+------------------------------------------------+";
                 echo description;
 
