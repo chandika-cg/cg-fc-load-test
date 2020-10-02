@@ -48,6 +48,7 @@ def runProject(stage_name, tc, duration, noResponse, cnvId, threadCount, delay, 
 
 //                sh "export JAVA_HOME=/usr/local/java/jdk1.8.0_31/bin/java"
                 sh "whoami"
+                sh "echo $PATH"
                 sh "java -version"
 
                 sh "mkdir -p reports"
