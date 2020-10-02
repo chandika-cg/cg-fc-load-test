@@ -48,7 +48,15 @@ def runProject(stage_name, tc, duration, noResponse, cnvId, threadCount, delay, 
                 sh "mkdir -p reports/${executionId}"
                 sh "${jmeter_home}/bin/jmeter.sh -n -l ${jmeter_home}/prj/summary-report-${BUILD_NUMBER}.csv -t ${jmeter_home}/prj/FCTG-LT-PP.jmx -JRND_RES_CNT=${rndResCnt} -JCNV_ID=${_cnvId} -JTESTCASE=${tc} -JTHREADS=${threadCount} -JRAMPUP=${delay} -JDURATION=${duration} -JNO_RESPONSE=${noResponse} -JLOOP_COUNT=1 -JSTARTUP_DELAY=0 -j ${jmeter_home}/prj/jmeter.log -e -o reports/${executionId}"
 
-                archiveArtifacts artifacts: "reports/${executionId}/index.html", excludes: 'reports/*.md'
+//                archiveArtifacts artifacts: "reports/${executionId}/index.html", excludes: 'reports/*.md'
+                publishHTML (target: [
+                        allowMissing: false,
+                        alwaysLinkToLastBuild: false,
+                        keepAll: true,
+                        reportDir: "reports/${executionId}",
+                        reportFiles: 'index.html',
+                        reportName: "Load Test Report"
+                ])
 //                sh "${jmeter_home}/bin/jmeter.sh -n -l ${jmeter_home}/prj/summary-report.csv -t ${jmeter_home}/prj/FCTG-LT-PP.jmx -JRND_RES_CNT=${rndResCnt} -JCNV_ID=${_cnvId} -JTESTCASE=${tc} -JTHREADS=${threadCount} -JRAMPUP=${delay} -JDURATION=${duration} -JLOOP_COUNT=1 -JSTARTUP_DELAY=0 -j ${jmeter_home}/prj/jmeter.log"
 
 //                publishHTML target: [
