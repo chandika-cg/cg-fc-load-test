@@ -5,6 +5,7 @@ def interval = Integer.parseInt(params.INTERVAL)
 def testcaseList = params.TESTCASE.split(',')
 def rndResCnt = Integer.parseInt(params.RND_RES_CNT)
 def noResponse = params.NO_RESPONSE
+def jmeter_home = params.JMETER_HOME
 def cnvId = params.CNV_ID
 int stageCount = 0;
 
@@ -23,14 +24,13 @@ description += "\n+  RESULT SHOW PROBABILITY = 1/${rndResCnt}";
 description += "\n+------------------------------------------------+";
 echo description;
 
-def runProject(stage_name, tc, duration, noResponse, cnvId, threadCount, delay, rndResCnt, stageCount, pipelineId){
+def runProject(stage_name, tc, duration, noResponse, cnvId, threadCount, delay, rndResCnt, stageCount, pipelineId, jmeter_home){
 //    def title = email_prefix +" "+ profile + " " + duration.toString() + "D " + (new Date()).format("yyyy-MM-dd HH:mm:ss") + " #${BUILD_NUMBER}"
     def title =  "${BUILD_NUMBER}##";
     def timeOut = duration + 5;
     duration = (duration*60).toString();
     def _cnvId = cnvId + "-" + stageCount;
-    def jmeter_home = "/home/jenkins/jmeter";
-    def workspace = "/home/jenkins/jmeter";
+//    def jmeter_home = "/home/jenkins/jmeter";
     def executionId = pipelineId + stageCount.toString();
     stage stage_name + (threadCount==""?"":"-T"+threadCount.toString()) + (delay==""?"":"-D"+delay.toString())
     node {
@@ -79,7 +79,7 @@ testcaseList.each {
         delayList.each {
             def delay = it;
             stageCount++;
-            runProject(tc, tc, duration, noResponse, cnvId, threadCount, delay, rndResCnt, stageCount, pipelineId)
+            runProject(tc, tc, duration, noResponse, cnvId, threadCount, delay, rndResCnt, stageCount, pipelineId, jmeter_home)
         }
     }
     sleep interval
