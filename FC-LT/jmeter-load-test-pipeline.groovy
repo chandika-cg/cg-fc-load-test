@@ -25,8 +25,6 @@ echo description;
 def runProject(stage_name, tc, duration, cnvId, threadCount, delay, rndResCnt, stageCount){
 //    def title = email_prefix +" "+ profile + " " + duration.toString() + "D " + (new Date()).format("yyyy-MM-dd HH:mm:ss") + " #${BUILD_NUMBER}"
     def title =  "${BUILD_NUMBER}##";
-//    def buildPath = "${JENKINS_HOME}/jobs/${WORKSPACE}/builds/${BUILD_NUMBER}";
-    echo "BUILD_PATH: ${WORKSPACE}"
     def timeOut = duration + 5;
     duration = (duration*60).toString();
     def _cnvId = cnvId + "-" + stageCount;
