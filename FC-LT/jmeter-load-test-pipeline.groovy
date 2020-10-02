@@ -22,7 +22,7 @@ description += "\n+  RESULT SHOW PROBABILITY = 1/${rndResCnt}";
 description += "\n+------------------------------------------------+";
 echo description;
 
-def runProject(stage_name, tc, duration, cnvId, threadCount, delay, rndResCnt, stageCount){
+def runProject(stage_name, tc, duration, cnvId, threadCount, delay, rndResCnt, stageCount, pipelineId){
 //    def title = email_prefix +" "+ profile + " " + duration.toString() + "D " + (new Date()).format("yyyy-MM-dd HH:mm:ss") + " #${BUILD_NUMBER}"
     def title =  "${BUILD_NUMBER}##";
     def timeOut = duration + 5;
@@ -66,7 +66,7 @@ testcaseList.each {
         delayList.each {
             def delay = it;
             stageCount++;
-            runProject(tc, tc, duration, cnvId, threadCount, delay, rndResCnt, stageCount)
+            runProject(tc, tc, duration, cnvId, threadCount, delay, rndResCnt, stageCount, pipelineId)
         }
     }
     sleep interval
