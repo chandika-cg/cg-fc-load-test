@@ -8,7 +8,7 @@ def noResponse = params.NO_RESPONSE
 def jmeter_home = params.JMETER_HOME
 def jmx_file = params.JMX_FILE
 def cnvId = params.CNV_ID
-def resultsCount = params.RESULT_COUNT
+def resultsCountList = params.RESULT_COUNT.split(',')
 int stageCount = 0;
 
 def pipelineId = (new Date()).format("yyyyMMddHHmmss") + (Math.abs(new Random().nextInt() % [100]) + 1).toString();
@@ -75,16 +75,18 @@ def runProject(stage_name, tc, duration, noResponse, cnvId, resultsCount,threadC
         }
     }
 }
-
-testcaseList.each {
-    def tc = it;
-    threadList.each {
-        def threadCount = it;
-        delayList.each {
-            def delay = it;
-            stageCount++;
-            runProject(tc, tc, duration, noResponse, cnvId, resultsCount, threadCount, delay, rndResCnt, stageCount, pipelineId, jmeter_home, jmx_file)
+resultsCountList.each {
+    def resultsCount = it;
+    testcaseList.each {
+        def tc = it;
+        threadList.each {
+            def threadCount = it;
+            delayList.each {
+                def delay = it;
+                stageCount++;
+                runProject(tc, tc, duration, noResponse, cnvId, resultsCount, threadCount, delay, rndResCnt, stageCount, pipelineId, jmeter_home, jmx_file)
+            }
         }
+        sleep interval
     }
-    sleep interval
 }
