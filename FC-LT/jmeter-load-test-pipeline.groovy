@@ -55,7 +55,8 @@ def runProject(stage_name, tc, duration, noResponse, cnvId, threadCount, delay, 
                         keepAll: true,
                         reportDir: "reports/${executionId}",
                         reportFiles: 'index.html',
-                        reportName: "Load Test Report"
+                        reportName: "Load Test Report",
+                        includes: "**/*"
                 ])
 //                sh "${jmeter_home}/bin/jmeter.sh -n -l ${jmeter_home}/prj/summary-report.csv -t ${jmeter_home}/prj/FCTG-LT-PP.jmx -JRND_RES_CNT=${rndResCnt} -JCNV_ID=${_cnvId} -JTESTCASE=${tc} -JTHREADS=${threadCount} -JRAMPUP=${delay} -JDURATION=${duration} -JLOOP_COUNT=1 -JSTARTUP_DELAY=0 -j ${jmeter_home}/prj/jmeter.log"
 
