@@ -17,8 +17,8 @@ if(cnvId==""){
 def description = "";
 description += "\n+------------------------------------------------+";
 description += "\n+  CNV_ID                  = ${cnvId}";
-description += "\n+  DURATION                = ${duration}";
-description += "\n+  INTERVAL                = ${interval}";
+description += "\n+  DURATION                = ${duration} MIN";
+description += "\n+  INTERVAL                = ${interval} S";
 description += "\n+  RESULT SHOW PROBABILITY = 1/${rndResCnt}";
 description += "\n+------------------------------------------------+";
 echo description;
@@ -41,7 +41,7 @@ def runProject(stage_name, tc, duration, noResponse, cnvId, threadCount, delay, 
                 description += "\n+  CNV_ID                  = ${_cnvId}";
                 description += "\n+  TESTCASE                = ${tc}";
                 description += "\n+  THREAD COUNT            = ${threadCount}";
-                description += "\n+  DELAY                   = ${delay}";
+                description += "\n+  DELAY                   = ${delay} S";
                 description += "\n+------------------------------------------------+";
                 echo description;
                 sh "mkdir -p reports"
@@ -62,7 +62,7 @@ def runProject(stage_name, tc, duration, noResponse, cnvId, threadCount, delay, 
 //                publishHTML target: [
 //
 //                ]
-//                readFile("${jmeter_home}/prj/summary-report.csv").split('\n').each { line, count -> echo line }
+                readFile("${jmeter_home}/prj/summary-report.csv").split('\n').each { line, count -> echo line }
             }
         } catch (error) {
 
