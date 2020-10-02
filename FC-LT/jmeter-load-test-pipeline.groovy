@@ -34,7 +34,7 @@ def runProject(stage_name, tc, duration, noResponse, cnvId, resultsCount,threadC
     def _cnvId = cnvId + "-" + stageCount;
 //    def jmeter_home = "/home/jenkins/jmeter";
     def executionId = pipelineId + stageCount.toString();
-    stage stage_name + (threadCount==""?"":"-T"+threadCount.toString()) + (delay==""?"":"-D"+delay.toString())
+    stage "${stage_name}-T${threadCount}-D${delay}-R${resultsCount}"
     node {
         try{
             timeout(time: timeOut, unit: 'MINUTES') {
