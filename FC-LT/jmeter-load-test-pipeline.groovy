@@ -46,21 +46,25 @@ def runProject(stage_name, tc, duration, noResponse, cnvId, threadCount, delay, 
                 echo description;
                 sh "mkdir -p reports"
                 sh "mkdir -p reports/${executionId}"
-                sh "${jmeter_home}/bin/jmeter.sh -n -l ${jmeter_home}/prj/summary-report-${executionId}.csv -t ${jmeter_home}/prj/FCTG-LT-PP.jmx -JRND_RES_CNT=${rndResCnt} -JCNV_ID=${_cnvId} -JTESTCASE=${tc} -JTHREADS=${threadCount} -JRAMPUP=${delay} -JDURATION=${duration} -JNO_RESPONSE=${noResponse} -JLOOP_COUNT=1 -JSTARTUP_DELAY=0 -j ${jmeter_home}/prj/jmeter.log -e -o reports/${executionId}"
+                sh "${jmeter_home}/bin/jmeter.sh -n -l ${jmeter_home}/prj/summary-report-${executionId}.csv -t ${jmeter_home}/prj/FCTG-LT-PP.jmx -JRND_RES_CNT=${rndResCnt} -JCNV_ID=${_cnvId} -JTESTCASE=${tc} -JTHREADS=${threadCount} -JRAMPUP=${delay} -JDURATION=${duration} -JNO_RESPONSE=${noResponse} -JLOOP_COUNT=1 -JSTARTUP_DELAY=0 -j ${jmeter_home}/prj/jmeter.log"
+//                sh "${jmeter_home}/bin/jmeter.sh -n -l ${jmeter_home}/prj/summary-report-${executionId}.csv -t ${jmeter_home}/prj/FCTG-LT-PP.jmx -JRND_RES_CNT=${rndResCnt} -JCNV_ID=${_cnvId} -JTESTCASE=${tc} -JTHREADS=${threadCount} -JRAMPUP=${delay} -JDURATION=${duration} -JNO_RESPONSE=${noResponse} -JLOOP_COUNT=1 -JSTARTUP_DELAY=0 -j ${jmeter_home}/prj/jmeter.log -e -o reports/${executionId}"
 
-//                archiveArtifacts artifacts: "reports/${executionId}/index.html", excludes: 'reports/*.md'
-                publishHTML (target: [
-                        allowMissing: false,
-                        alwaysLinkToLastBuild: false,
-                        keepAll: true,
-                        reportDir: "reports/${executionId}",
-                        reportFiles: 'index.html',
-                        reportName: "Load Test Report",
-                        includes: "**/*"
-                ])
+                sh "mkdir -p summary"
+                sh "mv gen-summary-report.csv summary/summary-${executionId}.csv"
+                archiveArtifacts artifacts: "summary/summary-${executionId}.csv", excludes: 'reports/*.md'
+//                publishHTML (target: [
+//                        allowMissing: false,
+//                        alwaysLinkToLastBuild: false,
+//                        keepAll: true,
+//                        reportDir: "reports/${executionId}",
+//                        reportFiles: 'index.html',
+//                        reportName: "Load Test Report",
+//                        includes: "**/*"
+//                ])
 //                sh "${jmeter_home}/bin/jmeter.sh -n -l ${jmeter_home}/prj/summary-report.csv -t ${jmeter_home}/prj/FCTG-LT-PP.jmx -JRND_RES_CNT=${rndResCnt} -JCNV_ID=${_cnvId} -JTESTCASE=${tc} -JTHREADS=${threadCount} -JRAMPUP=${delay} -JDURATION=${duration} -JLOOP_COUNT=1 -JSTARTUP_DELAY=0 -j ${jmeter_home}/prj/jmeter.log"
 
-                readFile("${jmeter_home}/prj/summary-report-${executionId}.csv").split('\n').each { line, count -> echo line }
+
+//                readFile("${jmeter_home}/prj/summary-report-${executionId}.csv").split('\n').each { line, count -> echo line }
             }
         } catch (error) {
 
