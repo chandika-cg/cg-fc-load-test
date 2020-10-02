@@ -8,6 +8,7 @@ def noResponse = params.NO_RESPONSE
 def jmeter_home = params.JMETER_HOME
 def jmx_file = params.JMX_FILE
 def cnvId = params.CNV_ID
+def resultsCount = params.RESULT_COUNT
 int stageCount = 0;
 
 def pipelineId = (new Date()).format("yyyyMMddHHmmss") + (Math.abs(new Random().nextInt() % [100]) + 1).toString();
@@ -25,7 +26,7 @@ description += "\n+  RESULT SHOW PROBABILITY = 1/${rndResCnt}";
 description += "\n+------------------------------------------------+";
 echo description;
 
-def runProject(stage_name, tc, duration, noResponse, cnvId, threadCount, delay, rndResCnt, stageCount, pipelineId, jmeter_home, jmx_file){
+def runProject(stage_name, tc, duration, noResponse, cnvId, resultsCount,threadCount, delay, rndResCnt, stageCount, pipelineId, jmeter_home, jmx_file){
 //    def title = email_prefix +" "+ profile + " " + duration.toString() + "D " + (new Date()).format("yyyy-MM-dd HH:mm:ss") + " #${BUILD_NUMBER}"
     def title =  "${BUILD_NUMBER}##";
     def timeOut = duration + 5;
@@ -50,7 +51,7 @@ def runProject(stage_name, tc, duration, noResponse, cnvId, threadCount, delay, 
                 sh "mkdir -p reports"
                 sh "mkdir -p summary"
                 sh "mkdir -p reports/${executionId}"
-                sh "${jmeter_home}/bin/jmeter.sh -n -l ${jmeter_home}/prj/summary/summary-report-${executionId}.jtl -t ${jmeter_home}/prj/${jmx_file} -JRND_RES_CNT=${rndResCnt} -JCNV_ID=${_cnvId} -JTESTCASE=${tc} -JTHREADS=${threadCount} -JRAMPUP=${delay} -JDURATION=${duration} -JNO_RESPONSE=${noResponse} -JLOOP_COUNT=1 -JSTARTUP_DELAY=0 -j ${jmeter_home}/prj/jmeter.log"
+                sh "${jmeter_home}/bin/jmeter.sh -n -l ${jmeter_home}/prj/summary/summary-report-${executionId}.jtl -t ${jmeter_home}/prj/${jmx_file} -JRND_RES_CNT=${rndResCnt} -JCNV_ID=${_cnvId} -JTESTCASE=${tc} -JTHREADS=${threadCount} -JRAMPUP=${delay} -JDURATION=${duration} -JNO_RESPONSE=${noResponse} -JLOOP_COUNT=1 -JSTARTUP_DELAY=0 -JRESULT_COUNT=${resultsCount} -j ${jmeter_home}/prj/jmeter.log"
 //                sh "${jmeter_home}/bin/jmeter.sh -n -l ${jmeter_home}/prj/summary-report-${executionId}.csv -t ${jmeter_home}/prj/FCTG-LT-PP.jmx -JRND_RES_CNT=${rndResCnt} -JCNV_ID=${_cnvId} -JTESTCASE=${tc} -JTHREADS=${threadCount} -JRAMPUP=${delay} -JDURATION=${duration} -JNO_RESPONSE=${noResponse} -JLOOP_COUNT=1 -JSTARTUP_DELAY=0 -j ${jmeter_home}/prj/jmeter.log -e -o reports/${executionId}"
 
 
@@ -82,7 +83,7 @@ testcaseList.each {
         delayList.each {
             def delay = it;
             stageCount++;
-            runProject(tc, tc, duration, noResponse, cnvId, threadCount, delay, rndResCnt, stageCount, pipelineId, jmeter_home, jmx_file)
+            runProject(tc, tc, duration, noResponse, cnvId, resultsCount, threadCount, delay, rndResCnt, stageCount, pipelineId, jmeter_home, jmx_file)
         }
     }
     sleep interval
