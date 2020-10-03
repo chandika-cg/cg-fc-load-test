@@ -11,7 +11,7 @@ def props = [
     cnvId: params.CNV_ID,
     resultsCountList: params.RESULT_COUNT.split(','),
     stageCount: 0,
-    pipelineId: (new Date()).format("yyyyMMddHHmmss") + (Math.abs(new Random().nextInt() % [100]) + 1).toString();
+    pipelineId: (new Date()).format("yyyyMMddHHmmss") + (Math.abs(new Random().nextInt() % [100]) + 1).toString()
 ]
 
 
