@@ -8,6 +8,7 @@ def props = [
     testcaseList: params.TESTCASE.split(','),
     rndResCnt: Integer.parseInt(params.RND_RES_CNT),
     noResponse: params.NO_RESPONSE,
+    debugMode: params.DEBUG_MODE,
     jmeter_home: params.JMETER_HOME,
     jmx_file: params.JMX_FILE,
     cnvId: params.CNV_ID,
@@ -29,6 +30,7 @@ description += "\n+  DURATION                = ${props.duration} MIN";
 description += "\n+  INTERVAL                = ${props.interval} S";
 description += "\n+  RESULT SHOW PROBABILITY = 1/${props.rndResCnt}";
 description += "\n+  NO RESPONSE             = ${props.noResponse}";
+description += "\n+  DEBUG MODE              = ${props.debugMode}";
 description += "\n+------------------------------------------------+";
 echo description;
 
@@ -68,6 +70,7 @@ def runProject(props, testcase, resultsCount, threadCount, delay){
                 cmd += " -JRAMPUP=${delay}";
                 cmd += " -JDURATION=${props.duration*60}";
                 cmd += " -JNO_RESPONSE=${props.noResponse}";
+                cmd += " -JDEBUG_MODE=${props.debugMode}";
                 cmd += " -JLOOP_COUNT=1";
                 cmd += " -JSTARTUP_DELAY=0";
                 cmd += " -JRESULT_COUNT=${resultsCount}";
