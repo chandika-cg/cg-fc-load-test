@@ -74,15 +74,17 @@ def runProject(props, testcase, resultsCount, threadCount, delay){
 
 //                sh "${props.jmeter_home}/bin/JMeterPluginsCMD.sh --generate-csv ${props.jmeter_home}/prj/csv/${executionId}.csv --input-jtl ${props.jmeter_home}/prj/jtl/${executionId}.jtl --plugin-type AggregateReport";
 
-                echo "<table>";
+
+                def html = "<table>";
                 readFile("${props.jmeter_home}/prj/csv/2020100311343938-1.csv").split('\n').each { line, count ->
-                    echo "<tr>";
+                    html += "<tr>";
                     line.split(",").each { cell ->
-                        echo "<td>${cell}</td>";
+                        html += "<td>${cell}</td>";
                     }
-                    echo "</tr>";
+                    html += "</tr>";
                 }
-                echo "</table>";
+                html += "</table>";
+                echo html;
             }
         } catch (error) {
             println(error);
