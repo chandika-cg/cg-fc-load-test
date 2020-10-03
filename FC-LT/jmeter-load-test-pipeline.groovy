@@ -13,7 +13,8 @@ def props = [
     cnvId: params.CNV_ID,
     resultsCountList: params.RESULT_COUNT.split(','),
     stageCount: 0,
-    pipelineId: (new Date()).format("yyyyMMddHHmmss") + (Math.abs(new Random().nextInt() % [100]) + 1).toString()
+    pipelineId: (new Date()).format("yyyyMMddHHmmss") + (Math.abs(new Random().nextInt() % [100]) + 1).toString(),
+    buildDescription: ""
 ]
 
 
@@ -79,11 +80,12 @@ def runProject(props, testcase, resultsCount, threadCount, delay){
 
                 def lines = readFile("${props.jmeter_home}/prj/csv/2020100311343938-1.csv").split('\n');
                 def keys = lines[0].split(',')
-                def rows = lines[1..-1].collect { line ->
+                def rows = lines[1..-2].collect { line ->
                     def i = 0, vals = line.split(',')
                     keys.inject([:]) { map, key -> map << ["$key": vals[i++]] }
                 }
-                currentBuild.description = JsonOutput.prettyPrint(JsonOutput.toJson(rows));
+                props.buildDescription += "\n" + JsonOutput.prettyPrint(JsonOutput.toJson(rows));
+                currentBuild.description = props.buildDescription;
             }
         } catch (error) {
             println(error);
