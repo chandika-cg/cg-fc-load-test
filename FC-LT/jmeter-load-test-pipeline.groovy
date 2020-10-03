@@ -1,3 +1,5 @@
+import groovy.json.*
+
 def props = [
     duration: Integer.parseInt(params.DURATION),
     threadList: params.THREADS.split(','),
@@ -75,16 +77,13 @@ def runProject(props, testcase, resultsCount, threadCount, delay){
 //                sh "${props.jmeter_home}/bin/JMeterPluginsCMD.sh --generate-csv ${props.jmeter_home}/prj/csv/${executionId}.csv --input-jtl ${props.jmeter_home}/prj/jtl/${executionId}.jtl --plugin-type AggregateReport";
 
 
-                def html = "<table>";
-                readFile("${props.jmeter_home}/prj/csv/2020100311343938-1.csv").split('\n').each { line, count ->
-                    html += "<tr>";
-                    line.split(",").each { cell ->
-                        html += "<td>${cell}</td>";
-                    }
-                    html += "</tr>";
+                def lines = readFile("${props.jmeter_home}/prj/csv/2020100311343938-1.csv").split('\n');
+                def keys = lines[0].split(',')
+                def rows = lines[1..-1].collect { line ->
+                    def i = 0, vals = line.split(',')
+                    keys.inject([:]) { map, key -> map << ["$key": vals[i++]] }
                 }
-                html += "</table>";
-                currentBuild.description = html;
+                currentBuild.description = JsonOutput.toJson(rows);
             }
         } catch (error) {
             println(error);
