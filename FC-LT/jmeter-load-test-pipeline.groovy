@@ -83,7 +83,7 @@ def runProject(props, testcase, resultsCount, threadCount, delay){
                     def i = 0, vals = line.split(',')
                     keys.inject([:]) { map, key -> map << ["$key": vals[i++]] }
                 }
-                currentBuild.description = JsonOutput.toJson(rows);
+                currentBuild.description = JsonOutput.prettyPrint(JsonOutput.toJson(rows));
             }
         } catch (error) {
             println(error);
