@@ -50,14 +50,13 @@ def runProject(props, testcase, resultsCount, threadCount, delay){
                 echo description;
 
 
-                sh "mkdir -p reports"
-                sh "mkdir -p summary"
-                sh "mkdir -p reports/${executionId}"
+                sh "mkdir -p ${props.jmeter_home}/prj/jtl"
+                sh "mkdir -p ${props.jmeter_home}/prj/csv"
+
                 def cmd = "${props.jmeter_home}/bin/jmeter.sh -n"
                 cmd += " -j ${props.jmeter_home}/prj/jmeter.log";
-                cmd += " -l ${props.jmeter_home}/prj/summary/summary-report-${executionId}.jtl";
+                cmd += " -l ${props.jmeter_home}/prj/jtl/${executionId}.jtl";
                 cmd += " -t ${props.jmeter_home}/prj/${jmx_file}";
-
 
                 cmd += " -JRND_RES_CNT=${props.rndResCnt}";
                 cmd += " -JCNV_ID=${_cnvId}";
@@ -71,6 +70,8 @@ def runProject(props, testcase, resultsCount, threadCount, delay){
                 cmd += " -JRESULT_COUNT=${resultsCount}";
 
                 sh cmd;
+
+                sh "${props.jmeter_home}/bin/JMeterPluginsCMD.sh --generate-csv ${props.jmeter_home}/prj/csv/${executionId}.csv --input-jtl ${props.jmeter_home}/prj/jtl/${executionId}.jtl --plugin-type AggregateReport";
             }
         } catch (error) {
             println(error);
