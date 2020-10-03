@@ -78,7 +78,7 @@ def runProject(props, testcase, resultsCount, threadCount, delay){
                 sh "${props.jmeter_home}/bin/JMeterPluginsCMD.sh --generate-csv ${props.jmeter_home}/prj/csv/${executionId}.csv --input-jtl ${props.jmeter_home}/prj/jtl/${executionId}.jtl --plugin-type AggregateReport";
 
 
-                def lines = readFile("${props.jmeter_home}/prj/csv/2020100311343938-1.csv").split('\n');
+                def lines = readFile("${props.jmeter_home}/prj/csv/${executionId}.csv").split('\n');
                 def keys = lines[0].split(',')
 
                 def rows = lines[1..-2].collect { line ->
