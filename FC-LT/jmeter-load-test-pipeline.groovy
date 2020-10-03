@@ -54,21 +54,21 @@ def runProject(props, testcase, resultsCount, threadCount, delay){
                 sh "mkdir -p summary"
                 sh "mkdir -p reports/${executionId}"
                 def cmd = "${props.jmeter_home}/bin/jmeter.sh -n"
-                cmd += "-j ${props.jmeter_home}/prj/jmeter.log";
-                cmd += "-l ${props.jmeter_home}/prj/summary/summary-report-${executionId}.jtl";
-                cmd += "-t ${props.jmeter_home}/prj/${jmx_file}";
+                cmd += " -j ${props.jmeter_home}/prj/jmeter.log";
+                cmd += " -l ${props.jmeter_home}/prj/summary/summary-report-${executionId}.jtl";
+                cmd += " -t ${props.jmeter_home}/prj/${jmx_file}";
 
 
                 cmd += " -JRND_RES_CNT=${props.rndResCnt}";
-                cmd += "-JCNV_ID=${_cnvId}";
-                cmd += "-JTESTCASE=${testcase}";
-                cmd += "-JTHREADS=${threadCount}";
-                cmd += "-JRAMPUP=${delay}";
-                cmd += "-JDURATION=${props.duration}";
-                cmd += "-JNO_RESPONSE=${props.noResponse}";
-                cmd += "-JLOOP_COUNT=1";
-                cmd += "-JSTARTUP_DELAY=0";
-                cmd += "-JRESULT_COUNT=${resultsCount}";
+                cmd += " -JCNV_ID=${_cnvId}";
+                cmd += " -JTESTCASE=${testcase}";
+                cmd += " -JTHREADS=${threadCount}";
+                cmd += " -JRAMPUP=${delay}";
+                cmd += " -JDURATION=${props.duration}";
+                cmd += " -JNO_RESPONSE=${props.noResponse}";
+                cmd += " -JLOOP_COUNT=1";
+                cmd += " -JSTARTUP_DELAY=0";
+                cmd += " -JRESULT_COUNT=${resultsCount}";
 
                 sh cmd;
             }
