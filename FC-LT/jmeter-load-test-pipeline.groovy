@@ -33,9 +33,10 @@ def runProject(props, testcase, resultsCount, threadCount, delay){
     def timeOut = props.duration + 5;
     duration = (props.duration*60).toString();
     def _cnvId = props.cnvId + "-" + props.stageCount;
+    def stageName = "${testcase}-T${threadCount}-D${delay}-R${resultsCount}";
+    def executionId = "${props.pipelineId}-${props.stageCount}";
 
-    def executionId = props.pipelineId + props.stageCount.toString();
-    stage "${testcase}-T${threadCount}-D${delay}-R${resultsCount}"
+    stage stageName
     node {
         try{
             timeout(time: timeOut, unit: 'MINUTES') {
