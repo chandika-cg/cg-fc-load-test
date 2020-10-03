@@ -73,10 +73,13 @@ def runProject(props, testcase, resultsCount, threadCount, delay){
                 cmd += " -JSTARTUP_DELAY=0";
                 cmd += " -JRESULT_COUNT=${resultsCount}";
 
+                def startTime = (new Date()).format("yyyy-MM-dd HH:mm:ss");
                 sh cmd;
+                def endTime = (new Date()).format("yyyy-MM-dd HH:mm:ss");
 
                 sh "${props.jmeter_home}/bin/JMeterPluginsCMD.sh --generate-csv ${props.jmeter_home}/prj/csv/${executionId}.csv --input-jtl ${props.jmeter_home}/prj/jtl/${executionId}.jtl --plugin-type AggregateReport";
 
+                sh "python3 ${props.jmeter_home}/prj/PROCESS-LT-RESULTS.py ${props.jmeter_home}/prj/csv/${executionId}.csv ${testcase} ${threadCount} ${delay} ${resultsCount} ${_cnvId} ${props.duration} ${props.noResponse} ${startTime} ${endTime}"
 
                 def lines = readFile("${props.jmeter_home}/prj/csv/${executionId}.csv").split('\n');
                 def keys = lines[0].split(',')
