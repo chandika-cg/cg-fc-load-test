@@ -84,7 +84,7 @@ def runProject(props, testcase, resultsCount, threadCount, delay){
                     html += "</tr>";
                 }
                 html += "</table>";
-                echo html;
+                println(html);
             }
         } catch (error) {
             println(error);
