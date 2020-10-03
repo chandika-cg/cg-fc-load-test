@@ -1,48 +1,48 @@
-def duration = Integer.parseInt(params.DURATION)
-def threadList = params.THREADS.split(',')
-def delayList = params.RAMPUP.split(',')
-def interval = Integer.parseInt(params.INTERVAL)
-def testcaseList = params.TESTCASE.split(',')
-def rndResCnt = Integer.parseInt(params.RND_RES_CNT)
-def noResponse = params.NO_RESPONSE
-def jmeter_home = params.JMETER_HOME
-def jmx_file = params.JMX_FILE
-def cnvId = params.CNV_ID
-def resultsCountList = params.RESULT_COUNT.split(',')
-int stageCount = 0;
+def props = [
+    duration: Integer.parseInt(params.DURATION),
+    threadList: params.THREADS.split(','),
+    delayList: params.RAMPUP.split(','),
+    interval: Integer.parseInt(params.INTERVAL),
+    testcaseList: params.TESTCASE.split(','),
+    rndResCnt: Integer.parseInt(params.RND_RES_CNT),
+    noResponse: params.NO_RESPONSE,
+    jmeter_home: params.JMETER_HOME,
+    jmx_file: params.JMX_FILE,
+    cnvId: params.CNV_ID,
+    resultsCountList: params.RESULT_COUNT.split(','),
+    stageCount: 0,
+    pipelineId: (new Date()).format("yyyyMMddHHmmss") + (Math.abs(new Random().nextInt() % [100]) + 1).toString();
+]
 
-def pipelineId = (new Date()).format("yyyyMMddHHmmss") + (Math.abs(new Random().nextInt() % [100]) + 1).toString();
 
-if(cnvId==""){
-    cnvId = "LT" + pipelineId;
+if(props.cnvId==""){
+    props.cnvId = "LT" + props.pipelineId;
 }
 
 def description = "";
 description += "\n+------------------------------------------------+";
-description += "\n+  CNV_ID                  = ${cnvId}";
-description += "\n+  DURATION                = ${duration} MIN";
-description += "\n+  INTERVAL                = ${interval} S";
-description += "\n+  RESULT SHOW PROBABILITY = 1/${rndResCnt}";
-description += "\n+  NO RESPONSE             = ${noResponse}";
+description += "\n+  CNV_ID                  = ${props.cnvId}";
+description += "\n+  DURATION                = ${props.duration} MIN";
+description += "\n+  INTERVAL                = ${props.interval} S";
+description += "\n+  RESULT SHOW PROBABILITY = 1/${props.rndResCnt}";
+description += "\n+  NO RESPONSE             = ${props.noResponse}";
 description += "\n+------------------------------------------------+";
 echo description;
 
-def runProject(stage_name, tc, duration, noResponse, cnvId, resultsCount,threadCount, delay, rndResCnt, stageCount, pipelineId, jmeter_home, jmx_file){
-//    def title = email_prefix +" "+ profile + " " + duration.toString() + "D " + (new Date()).format("yyyy-MM-dd HH:mm:ss") + " #${BUILD_NUMBER}"
-    def title =  "${BUILD_NUMBER}##";
-    def timeOut = duration + 5;
-    duration = (duration*60).toString();
-    def _cnvId = cnvId + "-" + stageCount;
-//    def jmeter_home = "/home/jenkins/jmeter";
-    def executionId = pipelineId + stageCount.toString();
-    stage "${stage_name}-T${threadCount}-D${delay}-R${resultsCount}"
+def runProject(props, testcase, resultsCount, threadCount, delay){
+    def timeOut = props.duration + 5;
+    duration = (props.duration*60).toString();
+    def _cnvId = props.cnvId + "-" + props.stageCount;
+
+    def executionId = props.pipelineId + props.stageCount.toString();
+    stage "${props.testcase}-T${props.threadCount}-D${props.delay}-R${props.resultsCount}"
     node {
         try{
             timeout(time: timeOut, unit: 'MINUTES') {
                 def description = "";
                 description += "\n+------------------------------------------------+";
                 description += "\n+  CNV_ID                  = ${_cnvId}";
-                description += "\n+  TESTCASE                = ${tc}";
+                description += "\n+  TESTCASE                = ${testcase}";
                 description += "\n+  THREAD COUNT            = ${threadCount}";
                 description += "\n+  DELAY                   = ${delay} S";
                 description += "\n+  RESULT COUNT            = ${resultsCount}";
@@ -53,42 +53,43 @@ def runProject(stage_name, tc, duration, noResponse, cnvId, resultsCount,threadC
                 sh "mkdir -p reports"
                 sh "mkdir -p summary"
                 sh "mkdir -p reports/${executionId}"
-                sh "${jmeter_home}/bin/jmeter.sh -n -l ${jmeter_home}/prj/summary/summary-report-${executionId}.jtl -t ${jmeter_home}/prj/${jmx_file} -JRND_RES_CNT=${rndResCnt} -JCNV_ID=${_cnvId} -JTESTCASE=${tc} -JTHREADS=${threadCount} -JRAMPUP=${delay} -JDURATION=${duration} -JNO_RESPONSE=${noResponse} -JLOOP_COUNT=1 -JSTARTUP_DELAY=0 -JRESULT_COUNT=${resultsCount} -j ${jmeter_home}/prj/jmeter.log"
-//                sh "${jmeter_home}/bin/jmeter.sh -n -l ${jmeter_home}/prj/summary-report-${executionId}.csv -t ${jmeter_home}/prj/FCTG-LT-PP.jmx -JRND_RES_CNT=${rndResCnt} -JCNV_ID=${_cnvId} -JTESTCASE=${tc} -JTHREADS=${threadCount} -JRAMPUP=${delay} -JDURATION=${duration} -JNO_RESPONSE=${noResponse} -JLOOP_COUNT=1 -JSTARTUP_DELAY=0 -j ${jmeter_home}/prj/jmeter.log -e -o reports/${executionId}"
+                def cmd = "${props.jmeter_home}/bin/jmeter.sh -n"
+                cmd += "-j ${props.jmeter_home}/prj/jmeter.log";
+                cmd += "-l ${props.jmeter_home}/prj/summary/summary-report-${executionId}.jtl";
+                cmd += "-t ${props.jmeter_home}/prj/${jmx_file}";
 
 
-//                archiveArtifacts artifacts: "summary/summary-${executionId}.html", excludes: 'reports/*.md'
-//                publishHTML (target: [
-//                        allowMissing: false,
-//                        alwaysLinkToLastBuild: false,
-//                        keepAll: true,
-//                        reportDir: "reports/${executionId}",
-//                        reportFiles: 'index.html',
-//                        reportName: "Load Test Report",
-//                        includes: "**/*"
-//                ])
-//                sh "${jmeter_home}/bin/jmeter.sh -n -l ${jmeter_home}/prj/summary-report.csv -t ${jmeter_home}/prj/FCTG-LT-PP.jmx -JRND_RES_CNT=${rndResCnt} -JCNV_ID=${_cnvId} -JTESTCASE=${tc} -JTHREADS=${threadCount} -JRAMPUP=${delay} -JDURATION=${duration} -JLOOP_COUNT=1 -JSTARTUP_DELAY=0 -j ${jmeter_home}/prj/jmeter.log"
+                cmd += " -JRND_RES_CNT=${props.rndResCnt}";
+                cmd += "-JCNV_ID=${_cnvId}";
+                cmd += "-JTESTCASE=${testcase}";
+                cmd += "-JTHREADS=${threadCount}";
+                cmd += "-JRAMPUP=${delay}";
+                cmd += "-JDURATION=${props.duration}";
+                cmd += "-JNO_RESPONSE=${props.noResponse}";
+                cmd += "-JLOOP_COUNT=1";
+                cmd += "-JSTARTUP_DELAY=0";
+                cmd += "-JRESULT_COUNT=${resultsCount}";
 
-
-                readFile("${jmeter_home}/prj/summary/summary-report-${executionId}.jtl").split('\n').each { line, count -> echo line }
+                sh cmd;
             }
         } catch (error) {
-
+            println(error);
         }
     }
 }
-resultsCountList.each {
-    def resultsCount = it;
-    testcaseList.each {
-        def tc = it;
-        threadList.each {
+
+props.testcaseList.each {
+    def testcase = it;
+    props.resultsCountList.each {
+        def resultsCount = it;
+        props.threadList.each {
             def threadCount = it;
-            delayList.each {
+            props.delayList.each {
                 def delay = it;
-                stageCount++;
-                runProject(tc, tc, duration, noResponse, cnvId, resultsCount, threadCount, delay, rndResCnt, stageCount, pipelineId, jmeter_home, jmx_file)
+                props.stageCount++;
+                runProject(props, testcase, resultsCount, threadCount, delay)
             }
         }
-        sleep interval
+        sleep props.interval
     }
 }
