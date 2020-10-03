@@ -75,7 +75,7 @@ def runProject(props, testcase, resultsCount, threadCount, delay){
 //                sh "${props.jmeter_home}/bin/JMeterPluginsCMD.sh --generate-csv ${props.jmeter_home}/prj/csv/${executionId}.csv --input-jtl ${props.jmeter_home}/prj/jtl/${executionId}.jtl --plugin-type AggregateReport";
 
                 echo "<table>";
-                readFile("${props.jmeter_home}/prj/csv/2020100311343938-1..csv").split('\n').each { line, count ->
+                readFile("${props.jmeter_home}/prj/csv/2020100311343938-1.csv").split('\n').each { line, count ->
                     echo "<tr>";
                     line.split(",").each { cell ->
                         echo "<td>${cell}</td>";
