@@ -84,7 +84,7 @@ def runProject(props, testcase, resultsCount, threadCount, delay){
                     html += "</tr>";
                 }
                 html += "</table>";
-                println(html);
+                currentBuild.description = html;
             }
         } catch (error) {
             println(error);
