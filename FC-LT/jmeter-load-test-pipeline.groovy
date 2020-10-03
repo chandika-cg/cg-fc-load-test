@@ -34,7 +34,6 @@ echo description;
 
 def runProject(props, testcase, resultsCount, threadCount, delay){
     def timeOut = props.duration + 5;
-    duration = (props.duration*60).toString();
     def _cnvId = props.cnvId + "-" + props.stageCount;
     def stageName = "${testcase}-T${threadCount}-D${delay}-R${resultsCount}";
     def executionId = "${props.pipelineId}-${props.stageCount}";
@@ -67,7 +66,7 @@ def runProject(props, testcase, resultsCount, threadCount, delay){
                 cmd += " -JTESTCASE=${testcase}";
                 cmd += " -JTHREADS=${threadCount}";
                 cmd += " -JRAMPUP=${delay}";
-                cmd += " -JDURATION=${props.duration}";
+                cmd += " -JDURATION=${props.duration*60}";
                 cmd += " -JNO_RESPONSE=${props.noResponse}";
                 cmd += " -JLOOP_COUNT=1";
                 cmd += " -JSTARTUP_DELAY=0";
