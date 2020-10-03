@@ -87,7 +87,7 @@ def runProject(props, testcase, resultsCount, threadCount, delay){
                 }
                 def _summary = [:];
                 _summary.put(stageName, rows);
-                props.buildSummary.addAll(_summary);
+                props.buildSummary.put(_summary);
                 currentBuild.description = JsonOutput.prettyPrint(JsonOutput.toJson(props.buildSummary));
             }
         } catch (error) {
