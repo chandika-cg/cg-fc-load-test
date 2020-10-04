@@ -91,7 +91,7 @@ def runProject(props, testcase, resultsCount, threadCount, delay){
                     keys.inject([:]) { map, key -> map << ["$key": vals[i++]] }
                 }
                 def _summary = [:];
-                _summary.put(stageName, rows);
+                _summary.put(stageName + " :: " + _cnvId, rows);
                 props.buildSummary.add(_summary);
                 currentBuild.description = JsonOutput.prettyPrint(JsonOutput.toJson(props.buildSummary));
             }
