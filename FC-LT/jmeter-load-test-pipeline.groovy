@@ -114,8 +114,8 @@ props.testcaseList.each {
                 def delay = it;
                 props.stageCount++;
                 runProject(props, testcase, resultsCount, threadCount, delay)
+                sleep props.interval
             }
         }
-        sleep props.interval
     }
 }
