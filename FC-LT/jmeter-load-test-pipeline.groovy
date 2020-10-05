@@ -4,7 +4,7 @@ def props = [
     duration: Integer.parseInt(params.DURATION),
     threadList: params.THREADS.split(','),
     delayList: params.DELAY.split(','),
-    rampup: params.RAMPUP.split(','),
+    rampup: params.RAMPUP,
     interval: Integer.parseInt(params.INTERVAL),
     testcaseList: params.TESTCASE.split(','),
     rndResCnt: Integer.parseInt(params.RND_RES_CNT),
