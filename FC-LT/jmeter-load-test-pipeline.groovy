@@ -3,7 +3,8 @@ import groovy.json.*
 def props = [
     duration: Integer.parseInt(params.DURATION),
     threadList: params.THREADS.split(','),
-    delayList: params.RAMPUP.split(','),
+    delayList: params.DELAY.split(','),
+    rampup: params.RAMPUP.split(','),
     interval: Integer.parseInt(params.INTERVAL),
     testcaseList: params.TESTCASE.split(','),
     rndResCnt: Integer.parseInt(params.RND_RES_CNT),
@@ -26,8 +27,9 @@ if(props.cnvId==""){
 def description = "";
 description += "\n+------------------------------------------------+";
 description += "\n+  CNV_ID                  = ${props.cnvId}";
-description += "\n+  DURATION                = ${props.duration} MIN";
-description += "\n+  INTERVAL                = ${props.interval} S";
+description += "\n+  DURATION                = ${props.duration} min";
+description += "\n+  INTERVAL                = ${props.interval} s";
+description += "\n+  RAMPUP                  = ${props.rampup} s";
 description += "\n+  RESULT SHOW PROBABILITY = 1/${props.rndResCnt}";
 description += "\n+  NO RESPONSE             = ${props.noResponse}";
 description += "\n+  DEBUG MODE              = ${props.debugMode}";
@@ -49,7 +51,7 @@ def runProject(props, testcase, resultsCount, threadCount, delay){
                 description += "\n+  CNV_ID                  = ${_cnvId}";
                 description += "\n+  TESTCASE                = ${testcase}";
                 description += "\n+  THREAD COUNT            = ${threadCount}";
-                description += "\n+  DELAY                   = ${delay} S";
+                description += "\n+  DELAY                   = ${delay} ms";
                 description += "\n+  RESULT COUNT            = ${resultsCount}";
                 description += "\n+------------------------------------------------+";
                 echo description;
@@ -67,7 +69,8 @@ def runProject(props, testcase, resultsCount, threadCount, delay){
                 cmd += " -JCNV_ID=${_cnvId}";
                 cmd += " -JTESTCASE=${testcase}";
                 cmd += " -JTHREADS=${threadCount}";
-                cmd += " -JRAMPUP=${delay}";
+                cmd += " -JRAMPUP=${rampup}";
+                cmd += " -JDELAY=${delay}";
                 cmd += " -JDURATION=${props.duration*60}";
                 cmd += " -JNO_RESPONSE=${props.noResponse}";
                 cmd += " -JDEBUG_MODE=${props.debugMode}";
