@@ -71,7 +71,7 @@ def runProject(props, testcase, resultsCount, threadCount, delay){
                 cmd += " -JCNV_ID=${_cnvId}";
                 cmd += " -JTESTCASE=${testcase}";
                 cmd += " -JTHREADS=${threadCount}";
-                cmd += " -JRAMPUP=${rampup}";
+                cmd += " -JRAMPUP=${props.rampup}";
                 cmd += " -JDELAY=${delay}";
                 cmd += " -JDURATION=${props.duration*60}";
                 cmd += " -JNO_RESPONSE=${props.noResponse}";
@@ -79,8 +79,8 @@ def runProject(props, testcase, resultsCount, threadCount, delay){
                 cmd += " -JLOOP_COUNT=1";
                 cmd += " -JSTARTUP_DELAY=0";
                 cmd += " -JRESULT_COUNT=${resultsCount}";
-                cmd += " -JTIMEOUT=${timeout}";
-                cmd += " -JSOURCE_CACHE=${sourceCache}";
+                cmd += " -JTIMEOUT=${props.timeout}";
+                cmd += " -JSOURCE_CACHE=${props.sourceCache}";
 
                 def startTime = (new Date()).format("yyyy-MM-dd HH:mm:ss");
                 sh cmd;
