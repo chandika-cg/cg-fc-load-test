@@ -10,6 +10,8 @@ def props = [
     rndResCnt: Integer.parseInt(params.RND_RES_CNT),
     noResponse: params.NO_RESPONSE,
     debugMode: params.DEBUG_MODE,
+    sourceCache: params.SOURCE_CACHE,
+    timeout: params.TIMEOUT,
     jmeter_home: params.JMETER_HOME,
     jmx_file: params.JMX_FILE,
     cnvId: params.CNV_ID,
@@ -77,6 +79,8 @@ def runProject(props, testcase, resultsCount, threadCount, delay){
                 cmd += " -JLOOP_COUNT=1";
                 cmd += " -JSTARTUP_DELAY=0";
                 cmd += " -JRESULT_COUNT=${resultsCount}";
+                cmd += " -JTIMEOUT=${timeout}";
+                cmd += " -JSOURCE_CACHE=${sourceCache}";
 
                 def startTime = (new Date()).format("yyyy-MM-dd HH:mm:ss");
                 sh cmd;
