@@ -63,6 +63,7 @@ def runProject(props, testcase, resultsCount, threadCount, delay){
                 sh "mkdir -p ${props.jmeter_home}/prj/csv"
 
                 def cmd = "${props.jmeter_home}/bin/jmeter.sh -n"
+                cmd += "  -R172.27.162.144 ";
                 cmd += " -j ${props.jmeter_home}/prj/jmeter.log";
                 cmd += " -l ${props.jmeter_home}/prj/jtl/${executionId}.jtl";
                 cmd += " -t ${props.jmeter_home}/prj/${jmx_file}";
@@ -86,7 +87,7 @@ def runProject(props, testcase, resultsCount, threadCount, delay){
                 sh cmd;
                 def endTime = (new Date()).format("yyyy-MM-dd HH:mm:ss");
 
-                sh "${props.jmeter_home}/bin/JMeterPluginsCMD.sh -R172.27.162.144 --generate-csv ${props.jmeter_home}/prj/csv/${executionId}.csv --input-jtl ${props.jmeter_home}/prj/jtl/${executionId}.jtl --plugin-type AggregateReport";
+                sh "${props.jmeter_home}/bin/JMeterPluginsCMD.sh --generate-csv ${props.jmeter_home}/prj/csv/${executionId}.csv --input-jtl ${props.jmeter_home}/prj/jtl/${executionId}.jtl --plugin-type AggregateReport";
 
                 sh "python3 ${props.jmeter_home}/prj/PROCESS-LT-RESULTS.py ${props.jmeter_home}/prj/csv/${executionId}.csv ${testcase} ${threadCount} ${delay} ${resultsCount} ${_cnvId} ${props.duration} ${props.noResponse} ${startTime} ${endTime}"
 
