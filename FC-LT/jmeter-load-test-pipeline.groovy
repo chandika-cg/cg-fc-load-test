@@ -70,7 +70,7 @@ def runProject(props, testcase, resultsCount, threadCount, delay){
 
                 cmd += " -JRND_RES_CNT=${props.rndResCnt}";
                 cmd += " -JCNV_ID=${_cnvId}";
-                cmd += " -JTESTCASE=${testcase};";
+                cmd += " -JTESTCASE=\"${testcase};\"";
                 cmd += " -JTHREADS=${threadCount}";
                 cmd += " -JRAMPUP=${props.rampup}";
                 cmd += " -JDELAY=${delay}";
