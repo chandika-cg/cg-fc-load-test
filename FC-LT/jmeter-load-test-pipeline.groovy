@@ -16,6 +16,7 @@ def props = [
     jmx_file: params.JMX_FILE,
     cnvId: params.CNV_ID,
     resultsCountList: params.RESULT_COUNT.split(','),
+    loadInjectors: params.LOAD_INJECTORS.replaceAll(/\w{1,3} \:\: /, ""),
     stageCount: 0,
     pipelineId: (new Date()).format("yyyyMMddHHmmss") + (Math.abs(new Random().nextInt() % [100]) + 1).toString(),
     buildSummary: []
@@ -63,10 +64,12 @@ def runProject(props, testcase, resultsCount, threadCount, delay){
                 sh "mkdir -p ${props.jmeter_home}/prj/csv"
 
                 def cmd = "${props.jmeter_home}/bin/jmeter.sh -n"
-//                cmd += "  -R172.27.162.144 ";
                 cmd += " -j ${props.jmeter_home}/prj/jmeter.log";
                 cmd += " -l ${props.jmeter_home}/prj/jtl/${executionId}.jtl";
                 cmd += " -t ${props.jmeter_home}/prj/${jmx_file}";
+
+                if (props.loadInjectors != "")
+                    cmd += " -R${props.loadInjectors}";
 
                 cmd += " -JRND_RES_CNT=${props.rndResCnt}";
                 cmd += " -JCNV_ID=${_cnvId}";
