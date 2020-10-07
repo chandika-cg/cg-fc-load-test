@@ -64,6 +64,7 @@ def runProject(props, testcase, resultsCount, threadCount, delay){
 
                 def cmd = "${props.jmeter_home}/bin/jmeter.sh -n"
 //                cmd += "  -R172.27.162.144 ";
+                cmd += "  -R127.0.0.1";
                 cmd += " -j ${props.jmeter_home}/prj/jmeter.log";
                 cmd += " -l ${props.jmeter_home}/prj/jtl/${executionId}.jtl";
                 cmd += " -t ${props.jmeter_home}/prj/${jmx_file}";
