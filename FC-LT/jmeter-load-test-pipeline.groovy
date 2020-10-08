@@ -16,7 +16,7 @@ def props = [
     jmx_file: params.JMX_FILE,
     cnvId: params.CNV_ID,
     resultsCountList: params.RESULT_COUNT.split(','),
-    loadInjectors: params.LOAD_INJECTORS.replaceAll(/\w{1,3} \:\: /, ""),
+    loadInjectors: (params.LOAD_INJECTORS ?: "").replaceAll(/\w{1,3} \:\: /, ""),
     stageCount: 0,
     pipelineId: (new Date()).format("yyyyMMddHHmmss") + (Math.abs(new Random().nextInt() % [100]) + 1).toString(),
     buildSummary: []
