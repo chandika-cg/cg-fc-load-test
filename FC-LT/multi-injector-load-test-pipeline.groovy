@@ -1,7 +1,17 @@
 
+
+def cnvId = params.CNV_ID;
+if(cnvId==""){
+    cnvId = "LT" + (new Date()).format("yyyyMMddHHmmss") + (Math.abs(new Random().nextInt() % [100]) + 1).toString();
+}
+
+echo "+-------------------------------------------------------------+";
+echo "+    CNV_ID = " + cnvId;
+echo "+-------------------------------------------------------------+";
+
+
 node {
     try{
-        def branches = [:]
         params.REGIONS.split(',').each {
             def regionData = it.split("::")
             def regionCode = regionData[0].trim();
@@ -13,15 +23,6 @@ node {
             echo regionToken
 
             def url = regionUrl + "job/EXECUTE-JM-LOADTEST/buildWithParameters?token=multiregion_test"
-
-            def cnvId = params.CNV_ID;
-            if(cnvId==""){
-                cnvId = "LT" + (new Date()).format("yyyyMMddHHmmss") + (Math.abs(new Random().nextInt() % [100]) + 1).toString();
-            }
-
-            echo "+-------------------------------------------------------------+";
-            echo "+    CNV_ID = " + cnvId;
-            echo "+-------------------------------------------------------------+";
 
             def params = [
                     'DURATION' :params.DURATION,
