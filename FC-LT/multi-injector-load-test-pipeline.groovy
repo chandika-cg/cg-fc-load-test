@@ -19,6 +19,10 @@ node {
                 cnvId = "LT" + (new Date()).format("yyyyMMddHHmmss") + (Math.abs(new Random().nextInt() % [100]) + 1).toString();
             }
 
+            echo "+-------------------------------------------------------------+";
+            echo "+    CNV_ID = " + cnvId;
+            echo "+-------------------------------------------------------------+";
+
             def params = [
                     'DURATION' :params.DURATION,
                     'TESTCASE' : params.TESTCASE,
