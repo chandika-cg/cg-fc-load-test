@@ -1,16 +1,4 @@
 
-def duration = Integer.parseInt(params.DURATION)
-def threadList = params.THREAD_LIST.split(',')
-def regionList = params.REGIONS.split(',')
-def delayList = params.DELAY_LIST.split(',')
-def interval = Integer.parseInt(params.INTERVAL) * 60
-def email_prefix = params.EMAIL_PREFIX
-def testProjectFilename = params.TEST_PROJECT_FILENAME
-def soapuiConfigs = params.SOAPUI_CONFIGS
-def profiles = params.PROFILES.split(',')
-// def cnvId = (new Date()).format("yyyyMMddHHmmss")
-
-
 node {
     try{
         def branches = [:]
