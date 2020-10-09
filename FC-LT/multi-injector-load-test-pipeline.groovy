@@ -39,6 +39,10 @@ node {
             {
                 url += " --data " + entry.key + "=" + entry.value + " " //java.net.URLEncoder.encode(entry.value, "UTF-8");
             }
+
+
+            echo sh(script: "curl $url -u grinder:$regionToken $dataCurl", returnStdout: true).trim()
+
         }
 
 
