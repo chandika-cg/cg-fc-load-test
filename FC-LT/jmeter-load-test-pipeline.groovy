@@ -6,7 +6,7 @@ def props = [
     delayList: params.DELAY.split(','),
     rampup: params.RAMPUP,
     interval: Integer.parseInt(params.INTERVAL),
-    testcaseList: params.TESTCASE.split(','),
+    testcaseList: params.RUN_TESTCASES_PARALLAY=="true" ? params.TESTCASE.replace(',', ';') : params.TESTCASE.split(','),
     rndResCnt: Integer.parseInt(params.RND_RES_CNT),
     noResponse: params.NO_RESPONSE,
     debugMode: params.DEBUG_MODE,
