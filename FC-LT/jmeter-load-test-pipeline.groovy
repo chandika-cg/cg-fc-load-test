@@ -1,17 +1,17 @@
 import groovy.json.*
 
 def props = [
-    duration: Integer.parseInt(params.DURATION),
+    duration: Eval.me(params.DURATION),
     threadList: params.THREADS.split(','),
     delayList: params.DELAY.split(','),
-    rampup: params.RAMPUP,
-    interval: Integer.parseInt(params.INTERVAL),
+    rampup: Eval.me(params.RAMPUP),
+    interval: Eval.me(params.INTERVAL),
     testcaseList: params.RUN_TESTCASES_PARALLAY ? [params.TESTCASE.replace(',', ';')] : params.TESTCASE.split(','),
-    rndResCnt: Integer.parseInt(params.RND_RES_CNT),
+    rndResCnt: Eval.me(params.RND_RES_CNT),
     noResponse: params.NO_RESPONSE,
     debugMode: params.DEBUG_MODE,
     sourceCache: params.SOURCE_CACHE,
-    timeout: params.TIMEOUT,
+    timeout: Eval.me(params.TIMEOUT),
     jmeter_home: params.JMETER_HOME,
     jmx_file: params.JMX_FILE,
     cnvId: params.CNV_ID,
@@ -114,11 +114,11 @@ def runProject(props, testcase, resultsCount, threadCount, delay){
 props.testcaseList.each {
     def testcase = it;
     props.resultsCountList.each {
-        def resultsCount = it;
+        def resultsCount = Eval.me(it);
         props.threadList.each {
             def threadCount = it;
             props.delayList.each {
-                def delay = it;
+                def delay = Eval.me(it);
                 props.stageCount++;
                 runProject(props, testcase, resultsCount, threadCount, delay)
                 sleep props.interval
