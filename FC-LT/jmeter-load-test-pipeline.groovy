@@ -6,7 +6,7 @@ def props = [
     delayList: params.DELAY.split(','),
     rampup: params.RAMPUP,
     interval: Integer.parseInt(params.INTERVAL),
-    testcaseList: params.RUN_TESTCASES_PARALLAY=="true" ? [params.TESTCASE.replace(',', ';')] : params.TESTCASE.split(','),
+    testcaseList: params.RUN_TESTCASES_PARALLAY ? [params.TESTCASE.replace(',', ';')] : params.TESTCASE.split(','),
     rndResCnt: Integer.parseInt(params.RND_RES_CNT),
     noResponse: params.NO_RESPONSE,
     debugMode: params.DEBUG_MODE,
@@ -22,9 +22,9 @@ def props = [
     buildSummary: []
 ]
 
-echo (params.RUN_TESTCASES_PARALLAY=="true").toString()
+echo params.RUN_TESTCASES_PARALLAY=.toString()
 echo params.TESTCASE.replace(',', ';')
-echo params.RUN_TESTCASES_PARALLAY=="true" ? [params.TESTCASE.replace(',', ';')] : params.TESTCASE.split(',')
+echo params.RUN_TESTCASES_PARALLAY ? [params.TESTCASE.replace(',', ';')] : params.TESTCASE.split(',')
 
 if(props.cnvId==""){
     props.cnvId = "LT" + props.pipelineId;
