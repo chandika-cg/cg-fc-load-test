@@ -22,10 +22,6 @@ def props = [
     buildSummary: []
 ]
 
-echo params.RUN_TESTCASES_PARALLAY.toString()
-echo params.TESTCASE.replace(',', ';')
-echo params.RUN_TESTCASES_PARALLAY ? [params.TESTCASE.replace(',', ';')] : params.TESTCASE.split(',')
-
 if(props.cnvId==""){
     props.cnvId = "LT" + props.pipelineId;
 }
