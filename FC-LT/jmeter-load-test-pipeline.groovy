@@ -87,7 +87,7 @@ def runProject(props, testcase, resultsCount, threadCount, delay){
                 cmd += " -JTIMEOUT=${props.timeout}";
                 cmd += " -JSOURCE_CACHE=${props.sourceCache}";
 
-                cmd += "  -Dmule.xml.expandExternalEntities=true -Dmule.xml.expandInternalEntities=true"
+                cmd += "  -Dmule.xml.expandExternalEntities=true -Dmule.xml.expandInternalEntities=true";
 
                 def startTime = (new Date()).format("yyyy-MM-dd HH:mm:ss");
                 sh cmd;
