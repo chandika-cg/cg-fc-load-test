@@ -42,7 +42,7 @@ node {
             def dataCurl = ""
             for( entry in params )
             {
-                url += " --data " + entry.key + "=" + entry.value + " " //java.net.URLEncoder.encode(entry.value, "UTF-8");
+                url += " --data " + entry.key + "='" + entry.value + "' " //java.net.URLEncoder.encode(entry.value, "UTF-8");
             }
 
 
