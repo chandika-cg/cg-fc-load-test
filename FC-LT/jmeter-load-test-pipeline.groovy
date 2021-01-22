@@ -87,7 +87,7 @@ def runProject(props, testcase, resultsCount, threadCount, delay){
                 cmd += " -JRESULT_COUNT=${resultsCount}";
                 cmd += " -JTIMEOUT=${props.timeout}";
                 cmd += " -JSOURCE_CACHE=${props.sourceCache}";
-                cmd += " -JPRPP=${props.PRPP}";
+                cmd += " -JPRPP=\"${props.PRPP}\"";
 
                 cmd += "  -Dmule.xml.expandExternalEntities=true -Dmule.xml.expandInternalEntities=true";
 
