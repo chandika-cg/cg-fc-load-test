@@ -15,9 +15,7 @@ node {
 
             def url = regionUrl + "job/EXECUTE-JM-LOADTEST/lastBuild/kill"
 
-            def dataCurl = ""
-
-            echo sh(script: "curl $url -u grinder:$regionToken $dataCurl", returnStdout: true).trim()
+            echo sh(script: "curl $url -u grinder:$regionToken", returnStdout: true).trim()
 
         }
 
