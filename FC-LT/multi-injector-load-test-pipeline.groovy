@@ -36,7 +36,9 @@ node {
                     'JMETER_HOME' : params.JMETER_HOME,
                     'JMX_FILE' : params.JMX_FILE,
                     'RESULT_COUNT' : params.RESULT_COUNT,
-                    'TIMEOUT' : params.TIMEOUT
+                    'TIMEOUT' : params.TIMEOUT,
+                    'PRPP' : params.PRPP,
+                    'RUN_TESTCASES_PARALLAY' : params.RUN_TESTCASES_PARALLAY,
             ]
 
             def dataCurl = ""

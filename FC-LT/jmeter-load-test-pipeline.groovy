@@ -15,6 +15,7 @@ def props = [
     jmeter_home: params.JMETER_HOME,
     jmx_file: params.JMX_FILE,
     cnvId: params.CNV_ID,
+    PRPP : params.PRPP,
     resultsCountList: params.RESULT_COUNT.split(','),
     loadInjectors: (params.LOAD_INJECTORS ?: "").replaceAll(/\w{1,3} \:\: /, ""),
     stageCount: 0,
@@ -86,6 +87,7 @@ def runProject(props, testcase, resultsCount, threadCount, delay){
                 cmd += " -JRESULT_COUNT=${resultsCount}";
                 cmd += " -JTIMEOUT=${props.timeout}";
                 cmd += " -JSOURCE_CACHE=${props.sourceCache}";
+                cmd += " -JPRPP=${props.PRPP}";
 
                 cmd += "  -Dmule.xml.expandExternalEntities=true -Dmule.xml.expandInternalEntities=true";
 
