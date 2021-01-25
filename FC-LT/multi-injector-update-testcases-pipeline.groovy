@@ -7,7 +7,7 @@ node {
             def regionUrl = regionData[1].trim();
             def regionToken = regionData[2].trim();
 
-            def url = regionUrl + "job/GET-JM-LT-TESTCASES//buildWithParameters?token=multiregion_test"
+            def url = regionUrl + "job/GET-JM-LT-TESTCASES/buildWithParameters?token=multiregion_test"
 
 
             echo sh(script: "curl $url -u grinder:$regionToken", returnStdout: true).trim()
