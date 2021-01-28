@@ -18,7 +18,7 @@ def activeRegions = params.REGIONS.split(',') as List;
 def spareRegion = activeRegions[activeRegions.size()-1];
 activeRegions.remove(activeRegions.size()-1);
 
-def startLT(def regionInfo)
+def startLT(def regionInfo, boolean firstTime)
 {
     def regionData = regionInfo.split("::");
     def regionCode = regionData[0].trim();
@@ -34,7 +34,7 @@ def startLT(def regionInfo)
     def params = [
             'DURATION'              : params.DURATION,
             'TESTCASE'              : params.TESTCASE,
-            'RAMPUP'                : refreshI == 0 ? params.RAMPUP : "0",
+            'RAMPUP'                : firstTime ? params.RAMPUP : "0",
             'DELAY'                 : params.DELAY,
             'THREADS'               : params.THREADS,
             'CNV_ID'                : cnvId + "-" + regionCode,
@@ -80,7 +80,7 @@ node {
     try {
 
         activeRegions.each {
-            startLT(it)
+            startLT(it, true)
         }
 
         while(refreshInterval>0)
@@ -102,7 +102,7 @@ node {
                 echo "+-------------------------------------------------------------+";
 
 
-                startLT(newRegion);
+                startLT(newRegion, false);
 
                 sleep refreshWait;
 
