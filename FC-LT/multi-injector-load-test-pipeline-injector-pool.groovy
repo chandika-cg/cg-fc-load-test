@@ -2,6 +2,10 @@ import java.security.UnrecoverableKeyException
 
 def cnvId = params.CNV_ID;
 def refreshInterval = Eval.me(params.REFRESH_INTERVAL) * 60;
+
+def refreshWait = 1*60;
+
+
 if (cnvId == "") {
     cnvId = "LT" + (new Date()).format("yyyyMMddHHmmss") + (Math.abs(new Random().nextInt() % [100]) + 1).toString();
 }
@@ -101,7 +105,7 @@ node {
 
                 startLT(newRegion);
 
-                sleep 60*4;
+                sleep refreshWait;
 
                 activeRegions.remove(i);
                 activeRegions << newRegion;
