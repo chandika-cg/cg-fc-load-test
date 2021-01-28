@@ -15,9 +15,8 @@ echo "+    CNV_ID = " + cnvId;
 echo "+-------------------------------------------------------------+";
 
 def activeRegions = params.REGIONS.split(',') as List;
-int spareRegionI = activeRegions[-1];
-def spareRegion = activeRegions[spareRegionI];
-activeRegions.remove(spareRegionI);
+def spareRegion = activeRegions[-1];
+activeRegions.remove(-1);
 
 def startLT(def regionInfo)
 {
