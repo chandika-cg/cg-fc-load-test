@@ -92,6 +92,13 @@ node {
                 def newRegion = spareRegion;
                 spareRegion = curRegions[i];
 
+                echo "+-------------------------------------------------------------+";
+                echo "+    RESTART";
+                echo "+    NEW   : " + newRegion;
+                echo "+    SPARE : " + spareRegion;
+                echo "+-------------------------------------------------------------+";
+
+
                 startLT(newRegion);
 
                 sleep 60*4;
@@ -100,16 +107,6 @@ node {
                 activeRegions << newRegion;
             }
         }
-
-        UK
-
-        -CC +UK
-        -CE +CC
-        -SA +CE
-        -AE +SA
-
-
-
 
     } catch (error) {
         echo error
