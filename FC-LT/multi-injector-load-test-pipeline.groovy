@@ -55,36 +55,25 @@ node {
                     }
                 }
 
+                if(refreshI>0)
+                {
+                    def url1 = regionUrl + "job/EXECUTE-JM-LOADTEST/lastBuild/stop"
+
+                    echo sh(script: "curl --location --request POST '$url1' -u grinder:$regionToken", returnStdout: true).trim()
+                }
+
                 echo sh(script: "curl $url -u grinder:$regionToken $dataCurl", returnStdout: true).trim()
 
-//                if(refreshI > 0)
-//                {
-//                    sleep 120 //wait 2Min before start next region LT
-//                }
+                if(refreshI > 0)
+                {
+                    sleep 120 //wait 2Min before start next region LT
+                }
 
             }
 
             refreshI++;
 
-            if (refreshInterval > 0) {
-                sleep refreshInterval
-                params.REGIONS.split(',').each {
-                    def regionData = it.split("::")
-                    def regionCode = regionData[0].trim();
-                    def regionUrl = regionData[1].trim();
-                    def regionToken = regionData[2].trim();
-
-
-
-                    def url = regionUrl + "job/EXECUTE-JM-LOADTEST/lastBuild/stop"
-
-                    echo sh(script: "curl --location --request POST '$url' -u grinder:$regionToken", returnStdout: true).trim()
-                }
-
-                echo "+-------------------------------------------------------------+";
-                echo "+   REFRESHING LOAD TEST";
-                echo "+-------------------------------------------------------------+";
-            } else {
+            if (refreshInterval == 0) {
                 break;
             }
         }
