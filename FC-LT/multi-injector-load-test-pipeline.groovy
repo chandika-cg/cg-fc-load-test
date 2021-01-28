@@ -1,7 +1,7 @@
 
 
 def cnvId = params.CNV_ID;
-def refreshInterval = Eval.me(params.REFRESH_INTERVAL);
+def refreshInterval = Eval.me(params.REFRESH_INTERVAL)*60;
 if(cnvId==""){
     cnvId = "LT" + (new Date()).format("yyyyMMddHHmmss") + (Math.abs(new Random().nextInt() % [100]) + 1).toString();
 }
