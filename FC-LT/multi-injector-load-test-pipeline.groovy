@@ -1,8 +1,6 @@
-
-
 def cnvId = params.CNV_ID;
-def refreshInterval = Eval.me(params.REFRESH_INTERVAL)*60;
-if(cnvId==""){
+def refreshInterval = Eval.me(params.REFRESH_INTERVAL) * 60;
+if (cnvId == "") {
     cnvId = "LT" + (new Date()).format("yyyyMMddHHmmss") + (Math.abs(new Random().nextInt() % [100]) + 1).toString();
 }
 
@@ -13,9 +11,9 @@ echo "+-------------------------------------------------------------+";
 
 node {
 
-    try{
+    try {
         int refreshI = 0;
-        do {
+        while (true) {
             params.REGIONS.split(',').each {
                 def regionData = it.split("::")
                 def regionCode = regionData[0].trim();
@@ -31,7 +29,7 @@ node {
                 def params = [
                         'DURATION'              : params.DURATION,
                         'TESTCASE'              : params.TESTCASE,
-                        'RAMPUP'                : refreshI==0 ? params.RAMPUP : "0",
+                        'RAMPUP'                : refreshI == 0 ? params.RAMPUP : "0",
                         'DELAY'                 : params.DELAY,
                         'THREADS'               : params.THREADS,
                         'CNV_ID'                : cnvId + "-" + regionCode,
@@ -63,7 +61,7 @@ node {
 
             }
 
-            if(refreshInterval>0){
+            if (refreshInterval > 0) {
                 sleep refreshInterval
                 params.REGIONS.split(',').each {
                     def regionData = it.split("::")
@@ -77,8 +75,10 @@ node {
 
                     echo sh(script: "curl --location --request POST '$url' -u grinder:$regionToken", returnStdout: true).trim()
                 }
+            } else {
+                break;
             }
-        } while (refreshInterval>0);
+        }
 
     } catch (error) {
         echo error
