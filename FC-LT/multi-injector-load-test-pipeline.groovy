@@ -75,6 +75,10 @@ node {
 
                     echo sh(script: "curl --location --request POST '$url' -u grinder:$regionToken", returnStdout: true).trim()
                 }
+
+                echo "+-------------------------------------------------------------+";
+                echo "+   REFRESHING LOAD TEST";
+                echo "+-------------------------------------------------------------+";
             } else {
                 break;
             }
