@@ -14,8 +14,8 @@ echo "+-------------------------------------------------------------+";
 echo "+    CNV_ID = " + cnvId;
 echo "+-------------------------------------------------------------+";
 
-def activeRegions = params.REGIONS.split(',');
-int spareRegionI = activeRegions[activeRegions.length-1];
+def activeRegions = params.REGIONS.split(',') as List;
+int spareRegionI = activeRegions[-1];
 def spareRegion = activeRegions[spareRegionI];
 activeRegions.remove(spareRegionI);
 
@@ -89,7 +89,7 @@ node {
             sleep refreshInterval;
 
             def curRegions =activeRegions.clone();
-            for(int i=0; i<curRegions.length; i++)
+            for(int i=0; i<curRegions.size(); i++)
             {
                 cancelLT(curRegions[i]);
 
@@ -108,7 +108,7 @@ node {
                 sleep refreshWait;
 
                 activeRegions.remove(i);
-                activeRegions << newRegion;
+                activeRegions.add(newRegion);
             }
         }
 
