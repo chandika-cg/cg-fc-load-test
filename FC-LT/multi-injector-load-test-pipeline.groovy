@@ -58,7 +58,7 @@ node {
 
                 if(refreshI > 0)
                 {
-                    sleep 300 //wait 5s before start next region LT
+                    sleep 120 //wait 2Min before start next region LT
                 }
 
                 echo sh(script: "curl $url -u grinder:$regionToken $dataCurl", returnStdout: true).trim()
