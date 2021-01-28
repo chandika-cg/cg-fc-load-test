@@ -72,13 +72,10 @@ def cancelLT(def regionInfo)
 
     def url = regionUrl + "job/EXECUTE-JM-LOADTEST/lastBuild/stop";
     echo sh(script: "curl --location --request POST '$url' -u grinder:$regionToken", returnStdout: true).trim();
-
 }
 
 node {
-
     try {
-
         activeRegions.each {
             startLT(it, cnvId, true)
         }
@@ -90,19 +87,17 @@ node {
             def curRegions =activeRegions.clone();
             for(int i=0; i<curRegions.size(); i++)
             {
-                cancelLT(curRegions[i]);
-
                 def newRegion = spareRegion;
                 spareRegion = curRegions[i];
 
+                startLT(newRegion, cnvId, false);
+                cancelLT(spareRegion);
+
                 echo "+-------------------------------------------------------------+";
-                echo "+    RESTART";
+                echo "+    ROLLING RESTART";
                 echo "+    NEW   : " + newRegion;
                 echo "+    SPARE : " + spareRegion;
                 echo "+-------------------------------------------------------------+";
-
-
-                startLT(newRegion, cnvId, false);
 
                 sleep refreshWait;
 
