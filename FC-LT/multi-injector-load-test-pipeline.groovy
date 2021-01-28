@@ -53,7 +53,6 @@ node {
                         url += " --data " + entry.key + "=" + entry.value + " ";
                         //java.net.URLEncoder.encode(entry.value, "UTF-8");
                     }
-                    refreshI++;
                 }
 
                 if(refreshI > 0)
@@ -64,6 +63,8 @@ node {
                 echo sh(script: "curl $url -u grinder:$regionToken $dataCurl", returnStdout: true).trim()
 
             }
+
+            refreshI++;
 
             if (refreshInterval > 0) {
                 sleep refreshInterval
