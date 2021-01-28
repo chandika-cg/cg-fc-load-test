@@ -73,7 +73,9 @@ node {
 
             refreshI++;
 
-            if (refreshInterval == 0) {
+            if (refreshInterval > 0) {
+                sleep refreshInterval;
+            } else {
                 break;
             }
         }
