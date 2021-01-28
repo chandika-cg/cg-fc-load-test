@@ -1,3 +1,5 @@
+import java.security.UnrecoverableKeyException
+
 def cnvId = params.CNV_ID;
 def refreshInterval = Eval.me(params.REFRESH_INTERVAL) * 60;
 if (cnvId == "") {
@@ -58,6 +60,18 @@ def startLT(def regionInfo)
     echo sh(script: "curl $url -u grinder:$regionToken $dataCurl", returnStdout: true).trim()
 }
 
+def cancelLT(def regionInfo)
+{
+    def regionData = regionInfo.split("::");
+    def regionCode = regionData[0].trim();
+    def regionUrl = regionData[1].trim();
+    def regionToken = regionData[2].trim();
+
+    def url = regionUrl + "job/EXECUTE-JM-LOADTEST/lastBuild/stop";
+    echo sh(script: "curl --location --request POST '$url' -u grinder:$regionToken", returnStdout: true).trim();
+
+}
+
 node {
 
     try {
@@ -69,24 +83,32 @@ node {
         while(refreshInterval>0)
         {
             sleep refreshInterval;
-            for(int i=0; i<activeRegions.length; i++)
-            {
-                def regionData = activeRegions[i].split("::")
-                def regionCode = regionData[0].trim();
-                def regionUrl = regionData[1].trim();
-                def regionToken = regionData[2].trim();
 
-                def url1 = regionUrl + "job/EXECUTE-JM-LOADTEST/lastBuild/stop";
-                echo sh(script: "curl --location --request POST '$url1' -u grinder:$regionToken", returnStdout: true).trim();
+            def curRegions =activeRegions.clone();
+            for(int i=0; i<curRegions.length; i++)
+            {
+                cancelLT(curRegions[i]);
 
                 def newRegion = spareRegion;
-                spareRegion = activeRegions[i];
+                spareRegion = curRegions[i];
 
                 startLT(newRegion);
 
                 sleep 60*4;
+
+                activeRegions.remove(i);
+                activeRegions << newRegion;
             }
         }
+
+        UK
+
+        -CC +UK
+        -CE +CC
+        -SA +CE
+        -AE +SA
+
+
 
 
     } catch (error) {
