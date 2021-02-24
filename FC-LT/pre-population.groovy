@@ -7,13 +7,13 @@ node {
         def data = "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:ser=\"http://service.prepopulation.tbx.codegen.it\">" +
                 "   <soapenv:Header/>" +
                 "   <soapenv:Body>" +
-                "      <ser:performAccomPredictivePriceParamSearch1>" +
+                "      <ser:performAccomPredictivePriceParamSearch>" +
                 "         <locations>"+params.LOCATIONS+"</locations>" +
                 "         <locationType>"+params.LOACTION_TYPE+"</locationType>" +
                 "         <runningDates></runningDates>" +
                 "         <dateGenerateFrequency>"+params.FREQUENCY+"</dateGenerateFrequency>" +
                 "         <predictivePriceSSP>"+params.SSP+"</predictivePriceSSP>" +
-                "      </ser:performAccomPredictivePriceParamSearch1>" +
+                "      </ser:performAccomPredictivePriceParamSearch>" +
                 "   </soapenv:Body>" +
                 "</soapenv:Envelope>";
 
