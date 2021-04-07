@@ -64,9 +64,8 @@ def runProject(props, testcase, resultsCount, threadCount, delay){
                 sh "mkdir -p ${props.jmeter_home}/prj/jtl"
                 sh "mkdir -p ${props.jmeter_home}/prj/csv"
 
-                def logFile = System.properties['log_file'] ?: 'jmeter'
                 def cmd = "${props.jmeter_home}/bin/jmeter.sh -n"
-                cmd += " -j ${props.jmeter_home}/prj/${logFile}.log";
+                cmd += " -j ${props.jmeter_home}/prj/${props.log_file}.log";
                 cmd += " -l ${props.jmeter_home}/prj/jtl/${executionId}.jtl";
                 cmd += " -t ${props.jmeter_home}/prj/${jmx_file}";
 
