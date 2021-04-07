@@ -12,7 +12,7 @@ def props = [
     debugMode: params.DEBUG_MODE,
     sourceCache: params.SOURCE_CACHE,
     timeout: Eval.me(params.TIMEOUT),
-    jmeter_home: params.JMETER_HOME,
+    jmeter_home: params.JMETER_HOME ?: 'jmeter',
     log_file: params.LOG_FILE,
     jmx_file: params.JMX_FILE,
     cnvId: params.CNV_ID,
