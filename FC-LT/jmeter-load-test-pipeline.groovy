@@ -13,6 +13,7 @@ def props = [
     sourceCache: params.SOURCE_CACHE,
     timeout: Eval.me(params.TIMEOUT),
     jmeter_home: params.JMETER_HOME,
+    log_file: params.LOG_FILE,
     jmx_file: params.JMX_FILE,
     cnvId: params.CNV_ID,
     PRPP : params.PRPP,
