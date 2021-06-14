@@ -22,7 +22,7 @@ def props = [
     stageCount: 0,
     pipelineId: (new Date()).format("yyyyMMddHHmmss") + (Math.abs(new Random().nextInt() % [100]) + 1).toString(),
     buildSummary: [],
-    addTC2CID: params.TC2CID ?: 'false',
+    addTC2CID: params.TC2CID ?: false,
 ]
 
 if(props.cnvId==""){
@@ -43,7 +43,7 @@ echo description;
 
 def runProject(props, testcase, resultsCount, threadCount, delay){
     def timeOut = props.duration + 5;
-    def _cnvId = props.cnvId + "-" + props.stageCount + (props.addTC2CID=="true"?"-["+testcase.replace(';', '')+"]":'');
+    def _cnvId = props.cnvId + "-" + props.stageCount + (props.addTC2CID?"-["+testcase.replace(';', '')+"]":'');
     def stageName = "${testcase}-T${threadCount}-D${delay}-R${resultsCount}";
     def executionId = "${props.pipelineId}-${props.stageCount}";
 
