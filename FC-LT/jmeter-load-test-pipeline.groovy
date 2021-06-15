@@ -23,7 +23,7 @@ def props = [
     pipelineId: (new Date()).format("yyyyMMddHHmmss") + (Math.abs(new Random().nextInt() % [100]) + 1).toString(),
     buildSummary: [],
     addTC2CID: params.TC2CID ?: false,
-    loopCount: params.LOOP_COUNT ?: 10
+    loopCount: params.LOOP_COUNT ?: -1
 ]
 
 if(props.cnvId==""){
