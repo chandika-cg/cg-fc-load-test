@@ -23,6 +23,7 @@ def props = [
     pipelineId: (new Date()).format("yyyyMMddHHmmss") + (Math.abs(new Random().nextInt() % [100]) + 1).toString(),
     buildSummary: [],
     addTC2CID: params.TC2CID ?: false,
+    loopCount: params.LOOP_COUNT ?: 10
 ]
 
 if(props.cnvId==""){
@@ -84,7 +85,7 @@ def runProject(props, testcase, resultsCount, threadCount, delay){
                 cmd += " -JDURATION=${props.duration*60}";
                 cmd += " -JNO_RESPONSE=${props.noResponse}";
                 cmd += " -JDEBUG_MODE=${props.debugMode}";
-                cmd += " -JLOOP_COUNT=1";
+                cmd += " -JLOOP_COUNT=${props.loopCount}";
                 cmd += " -JSTARTUP_DELAY=0";
                 cmd += " -JRESULT_COUNT=${resultsCount}";
                 cmd += " -JTIMEOUT=${props.timeout}";
