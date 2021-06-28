@@ -43,7 +43,7 @@ description += "\n+------------------------------------------------+";
 echo description;
 
 def runProject(props, testcase, resultsCount, threadCount, delay){
-    def timeOut = props.duration + 5;
+    def timeOut = props.duration + 15;
     def _cnvId = props.cnvId + "-" + props.stageCount + (props.addTC2CID?"-["+testcase.replace(';', '')+"]":'');
     def stageName = "${testcase}-T${threadCount}-D${delay}-R${resultsCount}";
     def executionId = "${props.pipelineId}-${props.stageCount}";
