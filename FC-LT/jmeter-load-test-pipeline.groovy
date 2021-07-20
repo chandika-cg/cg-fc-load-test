@@ -23,7 +23,8 @@ def props = [
     pipelineId: (new Date()).format("yyyyMMddHHmmss") + (Math.abs(new Random().nextInt() % [100]) + 1).toString(),
     buildSummary: [],
     addTC2CID: params.TC2CID ?: false,
-    loopCount: params.LOOP_COUNT ?: -1
+    loopCount: params.LOOP_COUNT ?: -1,
+    env: params.ENVIRONMENT ?: "NULL"
 ]
 
 if(props.cnvId==""){
@@ -91,6 +92,7 @@ def runProject(props, testcase, resultsCount, threadCount, delay){
                 cmd += " -JTIMEOUT=${props.timeout}";
                 cmd += " -JSOURCE_CACHE=${props.sourceCache}";
                 cmd += " -JPRPP=\"${props.PRPP}\"";
+                cmd += " -JENV=\"${props.env}\"";
 
                 cmd += "  -Dmule.xml.expandExternalEntities=true -Dmule.xml.expandInternalEntities=true";
 
