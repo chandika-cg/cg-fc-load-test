@@ -29,6 +29,8 @@ def props = [
     publishResults: params.PUBLISH_RESULTS ?: true
 ]
 
+echo params.PUBLISH_RESULTS;
+
 if(props.cnvId==""){
     props.cnvId = "LT" + props.pipelineId;
 }
