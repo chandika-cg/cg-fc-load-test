@@ -42,6 +42,7 @@ description += "\n+  RAMPUP                  = ${props.rampup} s";
 description += "\n+  RESULT SHOW PROBABILITY = 1/${props.rndResCnt}";
 description += "\n+  NO RESPONSE             = ${props.noResponse}";
 description += "\n+  DEBUG MODE              = ${props.debugMode}";
+description += "\n+  PUBLISH RESULTS         = ${props.publishResults}";
 description += "\n+------------------------------------------------+";
 echo description;
 
