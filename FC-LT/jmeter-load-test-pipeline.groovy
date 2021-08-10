@@ -25,7 +25,8 @@ def props = [
     addTC2CID: params.TC2CID ?: false,
     loopCount: params.LOOP_COUNT ?: -1,
     env: params.ENVIRONMENT ?: "NULL",
-    authType: params.AUTH_TYPE ?: "KEY-AUTH"
+    authType: params.AUTH_TYPE ?: "KEY-AUTH",
+    publishResults: params.PUBLISH_RESULTS ?: "YES"
 ]
 
 if(props.cnvId==""){
@@ -95,6 +96,7 @@ def runProject(props, testcase, resultsCount, threadCount, delay){
                 cmd += " -JPRPP=\"${props.PRPP}\"";
                 cmd += " -JENV=\"${props.env}\"";
                 cmd += " -JAUTH_TYPE=\"${props.authType}\"";
+                cmd += " -JPUBLISH_RESULTS=\"${props.publishResults}\"";
 
                 cmd += "  -Dmule.xml.expandExternalEntities=true -Dmule.xml.expandInternalEntities=true";
 
