@@ -26,7 +26,7 @@ def props = [
     loopCount: params.LOOP_COUNT ?: -1,
     env: params.ENVIRONMENT ?: "NULL",
     authType: params.AUTH_TYPE ?: "KEY-AUTH",
-    publishResults: params.PUBLISH_RESULTS ?: "YES"
+    publishResults: params.PUBLISH_RESULTS ?: true
 ]
 
 if(props.cnvId==""){
