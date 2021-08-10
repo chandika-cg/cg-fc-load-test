@@ -26,10 +26,8 @@ def props = [
     loopCount: params.LOOP_COUNT ?: -1,
     env: params.ENVIRONMENT ?: "NULL",
     authType: params.AUTH_TYPE ?: "KEY-AUTH",
-    publishResults: params.PUBLISH_RESULTS ?: true
+    publishResults: params.PUBLISH_RESULTS
 ]
-
-echo "PUBLISH_RESULTS:" + params.PUBLISH_RESULTS.toString();
 
 if(props.cnvId==""){
     props.cnvId = "LT" + props.pipelineId;
