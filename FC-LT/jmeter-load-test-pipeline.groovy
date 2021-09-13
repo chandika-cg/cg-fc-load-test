@@ -127,6 +127,19 @@ def runProject(props, testcase, resultsCount, threadCount, delay){
     }
 }
 
+if (params.CONFIG_CHANGE != null && params.CONFIG_CHANGE != "") {
+    def service = params.CONFIG_CHANGE.split(",,")[0];
+    def code = params.CONFIG_CHANGE.split(",,")[1];
+    def value = params.CONFIG_CHANGE.split(",,")[2];
+    stage('Config Change') {
+        build job: 'Service Config Changer', parameters: [
+                [$class: 'StringParameterValue', name: 'SERVICE', value: service],
+                [$class: 'StringParameterValue', name: 'CODE', value: code],
+                [$class: 'StringParameterValue', name: 'VALUE', value: value],
+        ]
+    }
+}
+
 props.testcaseList.each {
     def testcase = it;
     props.resultsCountList.each {
