@@ -41,6 +41,7 @@ node {
                         'TIMEOUT'               : params.TIMEOUT,
                         'PRPP'                  : params.PRPP,
                         'RUN_TESTCASES_PARALLAY': params.RUN_TESTCASES_PARALLAY,
+                        'PUBLISH_RESULTS'       : params.PUBLISH_RESULTS
                 ]
 
                 def dataCurl = ""
