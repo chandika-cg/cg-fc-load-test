@@ -107,7 +107,7 @@ def runProject(props, testcase, resultsCount, threadCount, delay, sshInjector) {
                 def startTime = (new Date()).format("yyyy-MM-dd HH:mm:ss");
 
                 if (sshInjector != "SELF") {
-                    cmd = "ssh ${sshInjector} -i ${props.jmeter_home}/prj/keys/${sshInjector} " + cmd.replace(';', '\\;');
+                    cmd = "ssh -t ${sshInjector} -i ${props.jmeter_home}/prj/keys/${sshInjector} " + cmd.replace(';', '\\;');
                 }
 
                 sh cmd;
