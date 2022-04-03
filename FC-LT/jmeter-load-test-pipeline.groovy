@@ -155,14 +155,18 @@ props.testcaseList.each {
             props.delayList.each {
                 def delay = Eval.me(it);
                 props.stageCount++;
+                def parallelStages = [:]
+
                 props.sshInjector.each {
                     def sshInjector = it;
-                    parallel(
-                            stage("${sshInjector}") {
-                                runProject(props, testcase, resultsCount, threadCount, delay, sshInjector);
-                            }
-                    )
+                    parallelStages[p] = {
+                        runProject(props, testcase, resultsCount, threadCount, delay, sshInjector);
+                    }
                 }
+
+                parallel parallelStages
+
+
                 sleep props.interval
             }
         }
