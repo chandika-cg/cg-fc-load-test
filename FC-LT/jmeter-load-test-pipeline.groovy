@@ -53,8 +53,7 @@ def runProject(props, testcase, resultsCount, threadCount, delay, sshInjector) {
     def stageName = "${testcase}-T${threadCount}-D${delay}-R${resultsCount}";
     def executionId = "${props.pipelineId}-${props.stageCount}";
 
-    stage stageName
-    node {
+    node(stageName) {
         try {
             timeout(time: timeOut, unit: 'MINUTES') {
                 def description = "";
