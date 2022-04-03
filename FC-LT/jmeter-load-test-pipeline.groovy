@@ -47,9 +47,9 @@ description += "\n+  PUBLISH RESULTS         = ${props.publishResults}";
 description += "\n+------------------------------------------------+";
 echo description;
 
-def runProject(props, testcase, resultsCount, threadCount, delay, sshInjector) {
+def runProject(props, testcase, resultsCount, threadCount, delay, sshInjector, injectorIndex) {
     def timeOut = props.duration + 15;
-    def _cnvId = props.cnvId + "-" + props.stageCount + (props.addTC2CID ? "-[" + testcase.replace(';', '') + "]" : '');
+    def _cnvId = props.cnvId + "-" + props.stageCount + "."+ injectorIndex + (props.addTC2CID ? "-[" + testcase.replace(';', '') + "]" : '');
     def stageName = "${testcase}-T${threadCount}-D${delay}-R${resultsCount}";
     def executionId = "${props.pipelineId}-${props.stageCount}";
 
@@ -158,11 +158,11 @@ props.testcaseList.each {
                 def delay = Eval.me(it);
                 props.stageCount++;
                 def parallelStages = [:]
-
+                def injectorIndex = 0;
                 props.sshInjector.each {
                     def sshInjector = it;
                     parallelStages[sshInjector] = {
-                        runProject(props, testcase, resultsCount, threadCount, delay, sshInjector);
+                        runProject(props, testcase, resultsCount, threadCount, delay, sshInjector, injectorIndex++);
                     }
                 }
 
