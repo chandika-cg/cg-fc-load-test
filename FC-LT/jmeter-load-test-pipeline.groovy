@@ -1,35 +1,36 @@
 import groovy.json.*
 
 def props = [
-    duration: Eval.me(params.DURATION),
-    threadList: params.THREADS.split(','),
-    delayList: params.DELAY.split(','),
-    rampup: Eval.me(params.RAMPUP),
-    interval: Eval.me(params.INTERVAL),
-    testcaseList: params.RUN_TESTCASES_PARALLAY ? [params.TESTCASE.replace(',', ';')] : params.TESTCASE.split(','),
-    rndResCnt: Eval.me(params.RND_RES_CNT),
-    noResponse: params.NO_RESPONSE,
-    debugMode: params.DEBUG_MODE,
-    sourceCache: params.SOURCE_CACHE,
-    timeout: Eval.me(params.TIMEOUT),
-    jmeter_home: params.JMETER_HOME,
-    log_file: params.LOG_FILE ?: 'jmeter',
-    jmx_file: params.JMX_FILE,
-    cnvId: params.CNV_ID,
-    PRPP : params.PRPP,
-    resultsCountList: params.RESULT_COUNT.split(','),
-    loadInjectors: (params.LOAD_INJECTORS ?: "").replaceAll(/\w{1,3} \:\: /, ""),
-    stageCount: 0,
-    pipelineId: (new Date()).format("yyyyMMddHHmmss") + (Math.abs(new Random().nextInt() % [100]) + 1).toString(),
-    buildSummary: [],
-    addTC2CID: params.TC2CID ?: false,
-    loopCount: params.LOOP_COUNT ?: -1,
-    env: params.ENVIRONMENT ?: "NULL",
-    authType: params.AUTH_TYPE ?: "KEY-AUTH",
-    publishResults: params.PUBLISH_RESULTS
+        duration        : Eval.me(params.DURATION),
+        threadList      : params.THREADS.split(','),
+        delayList       : params.DELAY.split(','),
+        rampup          : Eval.me(params.RAMPUP),
+        interval        : Eval.me(params.INTERVAL),
+        testcaseList    : params.RUN_TESTCASES_PARALLAY ? [params.TESTCASE.replace(',', ';')] : params.TESTCASE.split(','),
+        rndResCnt       : Eval.me(params.RND_RES_CNT),
+        noResponse      : params.NO_RESPONSE,
+        debugMode       : params.DEBUG_MODE,
+        sourceCache     : params.SOURCE_CACHE,
+        timeout         : Eval.me(params.TIMEOUT),
+        jmeter_home     : params.JMETER_HOME,
+        log_file        : params.LOG_FILE ?: 'jmeter',
+        jmx_file        : params.JMX_FILE,
+        cnvId           : params.CNV_ID,
+        PRPP            : params.PRPP,
+        resultsCountList: params.RESULT_COUNT.split(','),
+        loadInjectors   : (params.LOAD_INJECTORS ?: "").replaceAll(/\w{1,3} \:\: /, ""),
+        stageCount      : 0,
+        pipelineId      : (new Date()).format("yyyyMMddHHmmss") + (Math.abs(new Random().nextInt() % [100]) + 1).toString(),
+        buildSummary    : [],
+        addTC2CID       : params.TC2CID ?: false,
+        loopCount       : params.LOOP_COUNT ?: -1,
+        env             : params.ENVIRONMENT ?: "NULL",
+        authType        : params.AUTH_TYPE ?: "KEY-AUTH",
+        publishResults  : params.PUBLISH_RESULTS,
+        sshInjector     : params.SSH_INJECTOR.split(',')
 ]
 
-if(props.cnvId==""){
+if (props.cnvId == "") {
     props.cnvId = "LT" + props.pipelineId;
 }
 
@@ -46,15 +47,15 @@ description += "\n+  PUBLISH RESULTS         = ${props.publishResults}";
 description += "\n+------------------------------------------------+";
 echo description;
 
-def runProject(props, testcase, resultsCount, threadCount, delay){
+def runProject(props, testcase, resultsCount, threadCount, delay, sshInjector) {
     def timeOut = props.duration + 15;
-    def _cnvId = props.cnvId + "-" + props.stageCount + (props.addTC2CID?"-["+testcase.replace(';', '')+"]":'');
+    def _cnvId = props.cnvId + "-" + props.stageCount + (props.addTC2CID ? "-[" + testcase.replace(';', '') + "]" : '');
     def stageName = "${testcase}-T${threadCount}-D${delay}-R${resultsCount}";
     def executionId = "${props.pipelineId}-${props.stageCount}";
 
     stage stageName
     node {
-        try{
+        try {
             timeout(time: timeOut, unit: 'MINUTES') {
                 def description = "";
                 description += "\n+------------------------------------------------+";
@@ -86,7 +87,7 @@ def runProject(props, testcase, resultsCount, threadCount, delay){
                 cmd += " -JTHREADS=${threadCount}";
                 cmd += " -JRAMPUP=${props.rampup}";
                 cmd += " -JDELAY=${delay}";
-                cmd += " -JDURATION=${props.duration*60}";
+                cmd += " -JDURATION=${props.duration * 60}";
                 cmd += " -JNO_RESPONSE=${props.noResponse}";
                 cmd += " -JDEBUG_MODE=${props.debugMode}";
                 cmd += " -JLOOP_COUNT=${props.loopCount}";
@@ -102,6 +103,11 @@ def runProject(props, testcase, resultsCount, threadCount, delay){
                 cmd += "  -Dmule.xml.expandExternalEntities=true -Dmule.xml.expandInternalEntities=true";
 
                 def startTime = (new Date()).format("yyyy-MM-dd HH:mm:ss");
+
+                if (sshInjector != "SELF") {
+                    cmd = "ssh ${sshInjector} -i {props.jmeter_home}/prj/keys/${sshInjector} ${cmd}";
+                }
+
                 sh cmd;
                 def endTime = (new Date()).format("yyyy-MM-dd HH:mm:ss");
 
@@ -149,7 +155,16 @@ props.testcaseList.each {
             props.delayList.each {
                 def delay = Eval.me(it);
                 props.stageCount++;
-                runProject(props, testcase, resultsCount, threadCount, delay)
+                props.sshInjector.each {
+                    def sshInjector = it;
+                    parallel(
+                            "instance1": {
+                                steps {
+                                    runProject(props, testcase, resultsCount, threadCount, delay, sshInjector);
+                                }
+                            }
+                    )
+                }
                 sleep props.interval
             }
         }
