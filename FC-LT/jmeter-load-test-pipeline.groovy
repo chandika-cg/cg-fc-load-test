@@ -158,10 +158,8 @@ props.testcaseList.each {
                 props.sshInjector.each {
                     def sshInjector = it;
                     parallel(
-                            "${sshInjector}": {
-                                stage("${sshInjector}") {
-                                    runProject(props, testcase, resultsCount, threadCount, delay, sshInjector);
-                                }
+                            stage("${sshInjector}") {
+                                runProject(props, testcase, resultsCount, threadCount, delay, sshInjector);
                             }
                     )
                 }
