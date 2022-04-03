@@ -54,7 +54,7 @@ def runProject(props, testcase, resultsCount, threadCount, delay, sshInjector) {
     def executionId = "${props.pipelineId}-${props.stageCount}";
 
 
-    stage stageName
+//    stage stageName
     node {
         try {
             timeout(time: timeOut, unit: 'MINUTES') {
