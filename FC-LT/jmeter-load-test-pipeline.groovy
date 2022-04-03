@@ -100,6 +100,7 @@ def runProject(props, testcase, resultsCount, threadCount, delay, sshInjector) {
                 cmd += " -JENV=\"${props.env}\"";
                 cmd += " -JAUTH_TYPE=\"${props.authType}\"";
                 cmd += " -JPUBLISH_RESULTS=\"${props.publishResults}\"";
+                cmd += " -JLOAD_INJECTOR_SERVER=\"${sshInjector}\""; // not using anywhere, just for reference
 
                 cmd += "  -Dmule.xml.expandExternalEntities=true -Dmule.xml.expandInternalEntities=true";
 
