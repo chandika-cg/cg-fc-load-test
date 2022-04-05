@@ -27,7 +27,7 @@ def props = [
         env             : params.ENVIRONMENT ?: "NULL",
         authType        : params.AUTH_TYPE ?: "KEY-AUTH",
         publishResults  : params.PUBLISH_RESULTS,
-        sshInjector     : params.SSH_INJECTOR.split(',')
+        sshInjector     : (params.SSH_INJECTOR ?: "SELF").split(',')
 ]
 
 if (props.cnvId == "") {
