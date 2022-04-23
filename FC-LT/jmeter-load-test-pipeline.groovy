@@ -49,7 +49,7 @@ echo description;
 
 def runProject(props, testcase, resultsCount, threadCount, delay, sshInjector, injectorIndex) {
     def timeOut = props.duration + 15;
-    def _cnvId = props.cnvId + "-" + props.stageCount + "."+ injectorIndex + (props.addTC2CID ? "-[" + testcase.replace(';', '') + "]" : '');
+    def _cnvId = props.cnvId + "-" + props.stageCount + "_"+ injectorIndex + (props.addTC2CID ? "-[" + testcase.replace(';', '') + "]" : '');
     def stageName = "${testcase}-T${threadCount}-D${delay}-R${resultsCount}";
     def executionId = "${props.pipelineId}-${props.stageCount}";
 
