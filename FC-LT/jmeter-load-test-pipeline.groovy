@@ -10,6 +10,7 @@ def props = [
         rndResCnt       : Eval.me(params.RND_RES_CNT),
         noResponse      : params.NO_RESPONSE,
         debugMode       : params.DEBUG_MODE,
+        collectSumamry  : params.COLLECT_SUMMARY ?: false,
         sourceCache     : params.SOURCE_CACHE,
         timeout         : Eval.me(params.TIMEOUT),
         jmeter_home     : params.JMETER_HOME,
@@ -91,6 +92,7 @@ def runProject(props, testcase, resultsCount, threadCount, delay, sshInjector, i
                 cmd += " -JDURATION=${props.duration * 60}";
                 cmd += " -JNO_RESPONSE=${props.noResponse}";
                 cmd += " -JDEBUG_MODE=${props.debugMode}";
+                cmd += " -JCOLLECT_SUMMARY=${props.collectSumamry}";
                 cmd += " -JLOOP_COUNT=${props.loopCount}";
                 cmd += " -JSTARTUP_DELAY=0";
                 cmd += " -JRESULT_COUNT=${resultsCount}";
